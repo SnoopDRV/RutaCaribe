@@ -1,0 +1,741 @@
+<!DOCTYPE html><html class="" lang="es" style=""><head><meta content="web_standard" name="shell-type"><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><title>RutaCaribe - Líneas y Rutas Transcaribe</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;height:100%;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}* { transition: background-color 0.25s ease, border-color 0.25s ease, color 0.15s ease; }</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"outline":"#8c7166","on-error-container":"#93000a","on-error":"#ffffff","surface-dim":"#d2dbe6","on-background":"#141c24","error-container":"#ffdad6","surface-container-high":"#e0e9f4","surface-container-lowest":"#ffffff","on-secondary-fixed-variant":"#3a4859","on-primary-fixed-variant":"#7a3000","tertiary":"#545f73","surface-container-low":"#ecf4ff","secondary-fixed-dim":"#bac8dc","primary-fixed-dim":"#ffb693","error":"#ba1a1a","on-tertiary":"#ffffff","on-tertiary-container":"#242f42","surface-bright":"#f7f9ff","on-secondary-container":"#566475","surface-container-highest":"#dae3ef","primary-fixed":"#ffdbcb","secondary-container":"#d3e1f6","outline-variant":"#e0c0b2","on-primary":"#ffffff","surface-variant":"#dae3ef","on-secondary-fixed":"#0f1c2c","tertiary-fixed":"#d8e3fb","surface-container":"#e6effa","primary-container":"#f37021","surface":"#f7f9ff","on-tertiary-fixed-variant":"#3c475a","on-surface":"#141c24","secondary":"#525f71","background":"#f7f9ff","primary":"#a04100","on-surface-variant":"#584237","tertiary-container":"#8c97ad","on-primary-container":"#541f00","surface-tint":"#a04100","tertiary-fixed-dim":"#bcc7de","on-secondary":"#ffffff","inverse-on-surface":"#e9f2fd","inverse-surface":"#29313a","inverse-primary":"#ffb693","secondary-fixed":"#d6e4f9","on-primary-fixed":"#341000","on-tertiary-fixed":"#111c2d"},"borderRadius":{"DEFAULT":"0.125rem","lg":"0.25rem","xl":"0.5rem","full":"0.75rem"},"spacing":{"space-lg":"1.25rem","gutter":"1rem","space-sm":"0.5rem","margin":"1.5rem","margin-mobile":"1rem","space-md":"0.75rem","space-xs":"0.25rem","space-xl":"2rem","gutter-mobile":"0.75rem"},"fontFamily":{"headline-md":["Inter"],"label-lg":["Inter"],"headline-xl-mobile":["Inter"],"label-md":["Inter"],"headline-xl":["Inter"],"label-sm":["Inter"],"headline-sm":["Inter"],"body-lg":["Inter"],"body-md":["Inter"],"body-sm":["Inter"],"headline-lg":["Inter"],"headline-lg-mobile":["Inter"]},"fontSize":{"headline-md":["22px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}],"label-lg":["14px",{"lineHeight":"18px","letterSpacing":"0.02em","fontWeight":"700"}],"headline-xl-mobile":["30px",{"lineHeight":"34px","letterSpacing":"-0.02em","fontWeight":"800"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"700"}],"headline-xl":["40px",{"lineHeight":"44px","letterSpacing":"-0.03em","fontWeight":"800"}],"label-sm":["10px",{"lineHeight":"12px","letterSpacing":"0.06em","fontWeight":"800"}],"headline-sm":["18px",{"lineHeight":"22px","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"500"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"headline-lg":["32px",{"lineHeight":"38px","letterSpacing":"-0.02em","fontWeight":"700"}],"headline-lg-mobile":["24px",{"lineHeight":"28px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}}</script></head><body class="bg-background dark:bg-[#0f1722] font-body-md text-on-surface dark:text-[#e4edf8] min-h-screen relative overflow-x-hidden"><svg aria-hidden="true" class="inline-defs-container" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+<!-- Header & Barra de Navegación -->
+<header class="fixed top-0 left-0 right-0 z-50 pointer-events-none"><div class="w-full px-gutter-mobile lg:px-margin pt-space-xs">
+<div class="h-14 w-full max-w-7xl mx-auto flex items-center justify-between gap-space-sm bg-surface-container-lowest/95 dark:bg-[#162130]/95 backdrop-blur-md rounded-xl px-space-md shadow-[0_1px_8px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.35)] pointer-events-auto border border-surface-container/60 dark:border-white/10">
+<!-- Marca: RutaCaribe con icono de bus y subtítulo SITM TRANSCARIBE -->
+<a class="flex items-center gap-2.5 text-inherit no-underline" href="#"><span class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-none tracking-tight font-bold">RutaCaribe</span></a>
+<!-- Menú de Navegación con Iconos alineados -->
+<nav aria-label="Navegación principal" class="flex items-center gap-1 sm:gap-space-xs overflow-x-auto">
+<a class="flex items-center gap-1.5 px-3 py-1.5 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container/50 dark:hover:bg-white/5 font-label-lg text-label-lg rounded-lg transition-colors whitespace-nowrap" data-path="mapa" href="#">
+<span class="material-symbols-outlined text-[19px]">map</span>
+<span class="">Mapa</span>
+</a>
+<a aria-current="page" class="flex items-center gap-1.5 px-4 py-2 transition-colors whitespace-nowrap bg-primary-container text-white font-label-lg text-label-lg rounded-full font-bold shadow-sm" data-path="rutas" href="#"><span class="material-symbols-outlined text-[19px]">alt_route</span><span class="">Rutas</span></a>
+<a class="flex items-center gap-1.5 px-3 py-1.5 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container/50 dark:hover:bg-white/5 font-label-lg text-label-lg rounded-lg transition-colors whitespace-nowrap" data-path="horarios" href="#">
+<span class="material-symbols-outlined text-[19px]">schedule</span>
+<span class="">Horarios</span>
+</a>
+
+</nav>
+<!-- Interruptor Light / Dark Mode -->
+<div class="flex items-center pl-1">
+<button aria-label="Alternar tema claro y oscuro" class="relative flex items-center justify-between w-14 h-7 p-1 rounded-full bg-surface-container dark:bg-[#203045] border border-surface-container-high dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-primary-container/50 cursor-pointer select-none group" id="theme-toggle" type="button">
+<span class="material-symbols-outlined text-[14px] text-amber-500 z-10 transition-transform duration-300 ml-0.5">light_mode</span>
+<span class="material-symbols-outlined text-[14px] text-sky-300 z-10 transition-transform duration-300 mr-0.5">dark_mode</span>
+<span class="absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-surface-container-lowest dark:bg-[#101b2a] shadow-sm transform transition-transform duration-300 ease-out flex items-center justify-center" id="theme-thumb"></span>
+</button>
+</div>
+</div>
+</div></header>
+<main class="w-full min-h-screen pt-16 bg-background dark:bg-[#0f1722] relative z-10">
+<div class="flex flex-col w-full">
+<!-- Sub-header Operativo y Buscador -->
+<section class="w-full px-gutter-mobile lg:px-margin py-space-md">
+<div class="max-w-7xl mx-auto flex flex-col gap-space-md">
+<!-- Barra de Utilidad Superior -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<h1 class="font-headline-lg text-headline-lg text-on-surface dark:text-white tracking-tight">
+              Líneas, Paradas e Itinerarios
+            </h1>
+
+</div>
+<!-- Indicador de Frecuencia Base del Sistema -->
+<div class="flex items-center gap-space-md bg-surface-container-low dark:bg-[#162130] px-space-md py-space-sm rounded-xl border border-surface-container dark:border-white/5">
+<div class="flex items-center gap-space-xs text-on-surface dark:text-white">
+<span class="material-symbols-outlined text-[20px] text-primary-container">timelapse</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-gray-400">Frecuencia</span>
+<span class="font-label-lg text-label-lg tabular-nums">5 - 12 min</span>
+</div>
+</div>
+<div class="w-px h-8 bg-surface-variant dark:bg-white/10"></div>
+<div class="flex items-center gap-space-xs text-on-surface dark:text-white">
+<span class="material-symbols-outlined text-[20px] text-tertiary dark:text-gray-400">alt_route</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase text-on-surface-variant dark:text-gray-400">Cobertura</span>
+<span class="font-label-lg text-label-lg tabular-nums">24 Líneas</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Barra de Filtros y Búsqueda -->
+<div class="bg-surface-container-lowest dark:bg-[#162130] p-space-sm rounded-xl shadow-sm flex flex-col md:flex-row items-stretch gap-space-sm border border-surface-container/60 dark:border-white/5">
+<!-- Input de Búsqueda -->
+<div class="relative flex-1 flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary dark:text-gray-400 text-[22px] pointer-events-none">search</span>
+<input class="w-full bg-surface-container-low dark:bg-[#0f1722] text-on-surface dark:text-white placeholder:text-secondary dark:placeholder:text-gray-500 rounded-lg pl-10 pr-10 py-3 font-body-md text-body-md outline-none focus:bg-surface-container-lowest dark:focus:bg-[#131d2b] transition-all border border-transparent focus:border-primary-container/40" id="route-search-input" placeholder="Buscar por código o parada (ej. T101, Bazurto, Bocagrande, Crespo)..." type="text">
+<button class="hidden absolute right-3 text-secondary hover:text-on-surface dark:hover:text-white p-1" id="clear-search-btn">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Segmented Controls / Categorías -->
+<div class="flex items-center gap-1 overflow-x-auto bg-surface-container dark:bg-[#0f1722] p-1 rounded-lg select-none" id="category-filter-group"><button class="filter-tab px-4 py-1.5 font-label-md text-label-md rounded-lg transition-all bg-primary-container text-white font-bold flex items-center gap-1.5 shadow-[0_2px_8px_rgba(243,112,33,0.3),inset_0_1px_1px_rgba(255,255,255,0.45),inset_0_-1px_2px_rgba(0,0,0,0.2)] border border-white/20 active:translate-y-0.5 cursor-pointer" data-category="ALL">Todas (24)</button><button class="filter-tab px-4 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface dark:text-gray-300 dark:hover:text-white rounded-lg transition-all flex items-center gap-1.5 hover:bg-surface-container/50" data-category="TRONCAL"><span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>Troncales</button><button class="filter-tab px-4 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface dark:text-gray-300 dark:hover:text-white rounded-lg transition-all flex items-center gap-1.5 hover:bg-surface-container/50" data-category="PRETRONCAL"><span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>Pretroncales</button><button class="filter-tab px-4 py-1.5 font-label-md text-label-md text-secondary hover:text-on-surface dark:hover:text-white rounded-lg transition-all flex items-center gap-1.5 hover:bg-surface-container/50" data-category="ALIMENTADOR"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Alimentadoras</button></div>
+</div>
+</div>
+</section>
+<!-- Split View Principal (Master-Detail) -->
+<section class="w-full px-gutter-mobile lg:px-margin pb-space-xl">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+<!-- Columna Izquierda: Directorio de Rutas -->
+<div class="lg:col-span-5 flex flex-col gap-space-sm" id="routes-list-container">
+<div class="flex flex-col gap-space-xs" id="routes-cards-stack">
+<!-- Card T101 (Activa) -->
+<article class="route-card cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5" data-cat="TRONCAL" data-code="T101" data-search="t101 troncal portal transcaribe madre bernarda bazurto la bodeguita centro historic">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex items-start justify-between gap-space-sm pl-2">
+<div class="flex items-center gap-space-sm">
+<span class="bg-primary-container text-white font-headline-sm text-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums">
+                    T101
+                  </span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-primary dark:text-[#ff9d5c] font-bold">Línea Troncal Expresa</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-snug">Portal ↔ La Bodeguita</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-1">arrow_forward_ios</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-gray-400 mt-space-sm pl-2 line-clamp-1">
+                Vía Troncal Pedro de Heredia • Centro Histórico • Muelle de la Bodeguita
+              </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg">
+<div class="flex items-center gap-1 text-on-surface-variant dark:text-gray-300 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary dark:text-gray-400">pin_drop</span>
+<span class="">18 estaciones</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface dark:text-gray-200">
+<span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
+<span class="tabular-nums">Cada 6-8 min estimados</span>
+</div>
+</div>
+</article>
+<!-- Card T102 -->
+<article class="route-card cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5" data-cat="TRONCAL" data-code="T102" data-search="t102 troncal portal crespo bazurto marbella aeropuerto">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex items-start justify-between gap-space-sm pl-2">
+<div class="flex items-center gap-space-sm">
+<span class="bg-primary-container text-white font-headline-sm text-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums">
+                    T102
+                  </span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-primary dark:text-[#ff9d5c] font-bold">Línea Troncal</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-snug">Portal ↔ Crespo</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary dark:text-gray-400 text-[20px] shrink-0 mt-1">chevron_right</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-gray-400 mt-space-sm pl-2 line-clamp-1">
+                Corredor Pedro de Heredia • Torices • Marbella • Crespo Calle 70
+              </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg">
+<div class="flex items-center gap-1 text-on-surface-variant dark:text-gray-300 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary dark:text-gray-400">pin_drop</span>
+<span class="">24 estaciones</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface dark:text-gray-200">
+<span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
+<span class="tabular-nums">Cada 8-10 min estimados</span>
+</div>
+</div>
+</article>
+<!-- Card T103 -->
+<article class="route-card cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5" data-cat="TRONCAL" data-code="T103" data-search="t103 troncal portal bocagrande san martin bazurto castillo grande">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary-container"></div>
+<div class="flex items-start justify-between gap-space-sm pl-2">
+<div class="flex items-center gap-space-sm">
+<span class="bg-primary-container text-white font-headline-sm text-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums">
+                    T103
+                  </span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-primary dark:text-[#ff9d5c] font-bold">Línea Troncal</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-snug">Portal ↔ Bocagrande</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary dark:text-gray-400 text-[20px] shrink-0 mt-1">chevron_right</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-gray-400 mt-space-sm pl-2 line-clamp-1">
+                Troncal Pedro de Heredia • Centro • Cra 2 Bocagrande • Hospital Bocagrande
+              </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg">
+<div class="flex items-center gap-1 text-on-surface-variant dark:text-gray-300 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary dark:text-gray-400">pin_drop</span>
+<span class="">21 estaciones</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface dark:text-gray-200">
+<span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
+<span class="tabular-nums">Cada 10-12 min estimados</span>
+</div>
+</div>
+</article>
+<!-- Card X104 -->
+<article class="route-card cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5" data-cat="PRETRONCAL" data-code="X104" data-search="x104 pretroncal terminal de transportes centro historico cordialidad chambacu">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex items-start justify-between gap-space-sm pl-2">
+<div class="flex items-center gap-space-sm">
+<span class="bg-secondary text-white font-headline-sm text-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums">
+                    X104
+                  </span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-secondary dark:text-[#bac8dc] font-bold">Línea Pretroncal</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-snug">Terminal ↔ Centro Histórico</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary dark:text-gray-400 text-[20px] shrink-0 mt-1">chevron_right</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-gray-400 mt-space-sm pl-2 line-clamp-1">
+                Terminal • Av. Cordialidad • El Pozón • Ronda Real • Chambacú • Centro
+              </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg">
+<div class="flex items-center gap-1 text-on-surface-variant dark:text-gray-300 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary dark:text-gray-400">pin_drop</span>
+<span class="">32 paradas</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface dark:text-gray-200">
+<span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
+<span class="tabular-nums">Cada 12-15 min estimados</span>
+</div>
+</div>
+</article>
+<!-- Card X102 -->
+<article class="route-card cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5" data-cat="PRETRONCAL" data-code="X102" data-search="x102 pretroncal portal el bosque manga centro">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-secondary"></div>
+<div class="flex items-start justify-between gap-space-sm pl-2">
+<div class="flex items-center gap-space-sm">
+<span class="bg-secondary text-white font-headline-sm text-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums">
+                    X102
+                  </span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-secondary dark:text-[#bac8dc] font-bold">Línea Pretroncal</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-snug">Portal ↔ El Bosque ↔ Manga</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary dark:text-gray-400 text-[20px] shrink-0 mt-1">chevron_right</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-gray-400 mt-space-sm pl-2 line-clamp-1">
+                Portal • Diagonal 21 • Corredor de Ceballos • Manga Cuarta Avenida
+              </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg">
+<div class="flex items-center gap-1 text-on-surface-variant dark:text-gray-300 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary dark:text-gray-400">pin_drop</span>
+<span class="">28 paradas</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface dark:text-gray-200">
+<span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
+<span class="tabular-nums">Cada 10-14 min estimados</span>
+</div>
+</div>
+</article>
+<!-- Card A101 -->
+<article class="route-card cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5" data-cat="ALIMENTADOR" data-code="A101" data-search="a101 alimentador ciudadela 2000 portal transcaribe nelson mandela">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-emerald-500"></div>
+<div class="flex items-start justify-between gap-space-sm pl-2">
+<div class="flex items-center gap-space-sm">
+<span class="bg-emerald-500 text-white font-headline-sm text-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums">A101</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wide text-tertiary dark:text-gray-300 font-bold">Línea Alimentadora</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white leading-snug">Ciudadela 2000 ↔ Portal</h3>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary dark:text-gray-400 text-[20px] shrink-0 mt-1">chevron_right</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary dark:text-gray-400 mt-space-sm pl-2 line-clamp-1">
+                Sector Nelson Mandela • Circunvalar Sur • Retorno en Patio Portal
+              </p>
+<div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg">
+<div class="flex items-center gap-1 text-on-surface-variant dark:text-gray-300 font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px] text-tertiary dark:text-gray-400">pin_drop</span>
+<span class="">14 paradas de barrio</span>
+</div>
+<div class="flex items-center gap-1 font-label-md text-label-md text-on-surface dark:text-gray-200">
+<span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
+<span class="tabular-nums">Cada 12-15 min estimados</span>
+</div>
+</div>
+</article>
+</div>
+</div>
+<!-- Columna Derecha: Detalle de Ruta Seleccionada -->
+<div class="lg:col-span-7 flex flex-col gap-space-md sticky top-16" id="route-detail-panel">
+<div class="bg-surface-container-lowest dark:bg-[#162130] rounded-xl shadow-sm p-space-md lg:p-space-lg flex flex-col gap-space-md border border-surface-container/60 dark:border-white/5">
+<!-- Encabezado de Selección -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="bg-primary-container text-white font-headline-xl text-headline-xl px-3.5 py-1 rounded-lg tabular-nums" id="detail-badge">T101</div>
+<div>
+<span class="font-label-sm text-label-sm uppercase font-bold text-primary dark:text-[#ff9d5c] tracking-wide" id="detail-type">Troncal Expresa</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface dark:text-white" id="detail-title">Portal Transcaribe ↔ La Bodeguita</h2>
+</div>
+</div>
+<div class="flex items-center gap-space-xs self-start md:self-auto bg-surface-container dark:bg-[#203045] px-3 py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-primary-container text-[18px]">av_timer</span>
+<span class="font-label-md text-label-md text-on-surface dark:text-white tabular-nums" id="detail-freq">6 - 8 min</span>
+</div>
+</div>
+<!-- Selector de Sentido de Circulación (Tabs) -->
+<div class="bg-surface-container-low dark:bg-[#0f1722] p-1 rounded-xl flex items-center gap-1" id="direction-toggle-container"><button class="flex-1 py-2 px-3 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 bg-primary-container text-white font-bold shadow-[0_2px_8px_rgba(243,112,33,0.3),inset_0_1px_1px_rgba(255,255,255,0.45),inset_0_-1px_2px_rgba(0,0,0,0.2)] border border-white/25 active:translate-y-0.5 cursor-pointer" id="btn-dir-outbound"><span class="material-symbols-outlined text-[18px]">east</span><span class="">Hacia La Bodeguita</span></button><button class="flex-1 py-2 px-3 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container/50 border border-transparent hover:border-surface-container-high/40 cursor-pointer" id="btn-dir-inbound"><span class="material-symbols-outlined text-[18px]">west</span><span class="">Hacia Portal</span></button></div>
+<!-- Esquema Cartográfico Lineal Refinado -->
+<div class="w-full bg-surface-container-low dark:bg-[#0f1722] p-space-md rounded-xl flex flex-col gap-space-sm border border-surface-container dark:border-white/5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[18px]">linear_scale</span>
+<span class="font-label-md text-label-md uppercase tracking-wider text-on-surface dark:text-white font-bold">Esquema de Ruta Troncal</span>
+</div>
+<span class="font-label-sm text-label-sm bg-primary-container/15 text-primary dark:text-[#ff9d5c] px-2.5 py-0.5 rounded font-bold uppercase tracking-wide">Carril Exclusivo</span>
+</div>
+<div class="relative pt-4 pb-2 px-3">
+<div class="absolute left-7 right-7 top-7 h-1.5 bg-primary-container rounded-full z-0"></div>
+<div class="relative flex justify-between items-start z-10">
+<div class="flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-on-secondary-fixed dark:bg-white ring-4 ring-surface-container-low dark:ring-[#0f1722] flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-white dark:bg-[#0f1722]"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface dark:text-white text-center">Patio Portal</span>
+<span class="font-label-sm text-label-sm text-secondary dark:text-gray-400">Origen</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary-container ring-4 ring-surface-container-low dark:ring-[#0f1722] flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface dark:text-white text-center">M. Bernarda</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary-container ring-4 ring-surface-container-low dark:ring-[#0f1722] flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[14px]">sync_alt</span>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-primary dark:text-[#ff9d5c] text-center">Bazurto</span>
+<span class="font-label-sm text-label-sm text-primary dark:text-[#ff9d5c] font-bold">Nodo</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-primary-container ring-4 ring-surface-container-low dark:ring-[#0f1722] flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface dark:text-white text-center">Chambacú</span>
+</div>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-on-secondary-fixed dark:bg-white ring-4 ring-surface-container-low dark:ring-[#0f1722] flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-white dark:bg-[#0f1722]"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="font-label-md text-label-md font-bold text-on-surface dark:text-white text-center">La Bodeguita</span>
+<span class="font-label-sm text-label-sm text-secondary dark:text-gray-400">Destino</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Línea de Tiempo de Estaciones (Transit Timeline) -->
+<div class="flex flex-col gap-space-xs mt-2">
+<div class="flex items-center justify-between pb-space-xs">
+<span class="font-headline-sm text-headline-sm text-on-surface dark:text-white">Secuencia de Estaciones</span>
+<span class="font-label-sm text-label-sm text-secondary dark:text-gray-400" id="timeline-count-badge">11 estaciones</span>
+</div>
+<div class="relative pl-7 space-y-3 before:content-[''] before:absolute before:left-3 before:top-3 before:bottom-3 before:w-1 before:bg-primary-container/25" id="stations-timeline">
+<!-- Se llena mediante script -->
+</div>
+</div>
+<!-- Botones de Acción Operativa Rápida -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm pt-space-sm border-t border-surface-container dark:border-white/10 mt-space-xs">
+<button class="relative overflow-hidden bg-primary-container hover:bg-primary text-white py-3 px-space-md rounded-xl font-label-lg text-label-lg uppercase tracking-wide flex items-center justify-center gap-2 shadow-[0_4px_14px_rgba(243,112,33,0.35),inset_0_1px_1px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.2)] border border-white/20 active:translate-y-0.5 active:shadow-[inset_0_3px_6px_rgba(0,0,0,0.35)] transition-all cursor-pointer backdrop-blur-md select-none"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span class="">Ver Itinerarios Programados</span></button>
+<button class="relative overflow-hidden bg-on-secondary-fixed dark:bg-[#1f2d3d] hover:bg-on-secondary-fixed/90 dark:hover:bg-[#26374a] text-surface-container-lowest dark:text-white py-3 px-space-md rounded-xl font-label-lg text-label-lg uppercase tracking-wide flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(15,28,44,0.25),inset_0_1px_1px_rgba(255,255,255,0.25),inset_0_-2px_4px_rgba(0,0,0,0.3)] border border-white/10 active:translate-y-0.5 active:shadow-[inset_0_3px_6px_rgba(0,0,0,0.4)] transition-all cursor-pointer backdrop-blur-md select-none"><span class="material-symbols-outlined text-[20px]">route</span><span class="">Planear con esta Ruta</span></button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Completo: Acerca de, Aviso Legal y FAQs -->
+<footer class="w-full bg-surface-container-lowest dark:bg-[#0c131d] border-t border-surface-container dark:border-white/10 text-on-surface dark:text-gray-300 mt-space-xl"><div class="max-w-7xl mx-auto px-gutter-mobile lg:px-margin py-12 flex flex-col gap-10">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+<!-- Columna 1: Acerca de RutaCaribe (4 cols) -->
+<div class="md:col-span-4 flex flex-col gap-3.5">
+<div class="flex items-center gap-2.5"><span class="font-headline-sm text-headline-sm text-on-surface dark:text-white font-bold leading-tight">RutaCaribe</span></div>
+<p class="font-body-md text-body-md text-secondary dark:text-gray-400 leading-relaxed">
+Plataforma digital ciudadana e independiente orientada a facilitar la movilidad y el uso del transporte público en Cartagena. Brindamos información clara de líneas, horarios, paradas y novedades para que cartageneros y visitantes se desplacen mejor.
+</p>
+</div>
+<!-- Columna 2: Aviso de Independencia y Exención de Responsabilidad (4 cols) -->
+<div class="md:col-span-4 flex flex-col justify-start">
+<div class="p-4 rounded-xl bg-surface-container-low dark:bg-[#162130] border border-surface-container dark:border-white/10 flex flex-col gap-2">
+<div class="flex items-center gap-2 text-primary dark:text-[#ff9d5c]">
+<span class="material-symbols-outlined text-[20px]">gavel</span>
+<span class="font-label-md text-label-md font-bold uppercase tracking-wide">Aviso de Independencia y Exención</span>
+</div>
+<p class="font-body-sm text-[12px] text-secondary dark:text-gray-400 leading-relaxed">
+<strong>RutaCaribe</strong> es un proyecto estrictamente civil y colaborativo. <strong>No tiene afiliación, vínculo contractual ni representación oficial con Transcaribe S.A. ni con la Alcaldía de Cartagena.</strong>
+</p>
+<p class="font-body-sm text-[11px] text-secondary/80 dark:text-gray-500 leading-normal">
+No constituye canal oficial para trámites de PQRS, recargas financieras ni reclamos tarifarios del sistema.
+</p>
+</div>
+</div>
+<!-- Columna 3: Preguntas Frecuentes (FAQs) (4 cols) -->
+<div class="md:col-span-4 flex flex-col gap-3">
+<h4 class="font-headline-sm text-[16px] text-on-surface dark:text-white font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[20px]">help_outline</span>
+<span class="">Preguntas Frecuentes (FAQs)</span>
+</h4>
+<div class="flex flex-col gap-2 text-sm">
+<details class="group bg-surface-container-low dark:bg-[#162130] p-2.5 rounded-lg border border-surface-container dark:border-white/5 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface dark:text-gray-200 list-none flex items-center justify-between">
+¿De dónde provienen las alertas y datos?
+<span class="material-symbols-outlined text-[18px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-2 text-xs text-secondary dark:text-gray-400 leading-normal">
+De reportes colaborativos verificados en vía, anuncios operativos públicos y monitoreo de novedades del tráfico de Cartagena.
+</p>
+</details>
+<details class="group bg-surface-container-low dark:bg-[#162130] p-2.5 rounded-lg border border-surface-container dark:border-white/5 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface dark:text-gray-200 list-none flex items-center justify-between">
+¿Cómo calcular transbordos?
+<span class="material-symbols-outlined text-[18px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-2 text-xs text-secondary dark:text-gray-400 leading-normal">
+Cuentas con 90 minutos desde la primera validación para realizar transbordo entre alimentadoras, pretroncales y estaciones troncales.
+</p>
+</details>
+<details class="group bg-surface-container-low dark:bg-[#162130] p-2.5 rounded-lg border border-surface-container dark:border-white/5 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface dark:text-gray-200 list-none flex items-center justify-between">
+¿Dónde ver horarios de fin de semana?
+<span class="material-symbols-outlined text-[18px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-2 text-xs text-secondary dark:text-gray-400 leading-normal">
+En la pestaña Horarios puedes seleccionar sábados, domingos o festivos para consultar frecuencias y despachos especiales.
+</p>
+</details>
+<details class="group bg-surface-container-low dark:bg-[#162130] p-2.5 rounded-lg border border-surface-container dark:border-white/5 cursor-pointer">
+<summary class="font-label-md text-label-md font-bold text-on-surface dark:text-gray-200 list-none flex items-center justify-between">
+¿Cuáles son los canales oficiales del SITM?
+<span class="material-symbols-outlined text-[18px] group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<p class="mt-2 text-xs text-secondary dark:text-gray-400 leading-normal">
+Para PQRS y trámites oficiales de tarjeta, acude a los Centros de Atención al Usuario en Patio Portal o a transcaribe.gov.co.
+</p>
+</details>
+</div>
+</div>
+</div>
+<!-- Barra inferior de Copyright y Estado -->
+
+</div></footer>
+</div>
+</main>
+<!-- Scripts de Interacción y Gestión del Tema Claro / Oscuro -->
+<script>
+  (function initApp() {
+    // 1. Manejo del Tema Claro / Oscuro con persistencia y animación fluida
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeThumb = document.getElementById('theme-thumb');
+    const htmlEl = document.documentElement;
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        htmlEl.classList.add('dark');
+        themeThumb.style.transform = 'translateX(28px)';
+      } else {
+        htmlEl.classList.remove('dark');
+        themeThumb.style.transform = 'translateX(0px)';
+      }
+      localStorage.setItem('rc_theme', isDark ? 'dark' : 'light');
+    }
+
+    // Inicializar estado del tema (preferencia guardada o de sistema)
+    const savedTheme = localStorage.getItem('rc_theme');
+    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialDark = savedTheme ? savedTheme === 'dark' : systemPrefersDark;
+    applyTheme(initialDark);
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener('click', () => {
+        const isCurrentDark = htmlEl.classList.contains('dark');
+        applyTheme(!isCurrentDark);
+      });
+    }
+
+    // 2. Base de datos local para la vista interactiva de Rutas
+    const routesData = {
+      'T101': {
+        code: 'T101',
+        type: 'Troncal Expresa Central',
+        title: 'Portal Transcaribe ↔ La Bodeguita',
+        badgeColor: 'bg-primary-container',
+        textColor: 'text-primary dark:text-[#ff9d5c]',
+        freq: '6 - 8 min',
+        outboundName: 'Hacia La Bodeguita',
+        inboundName: 'Hacia Portal',
+        stopsCount: '11 estaciones',
+        stops: [
+          { name: 'Patio Portal', sub: 'Conexión con todas las alimentadoras (A101 - A117)', badge: 'Terminal Troncal', tag: 'Andén 1', isKey: true },
+          { name: 'Madre Bernarda', sub: 'Intersección Bomba El Amparo', connections: ['T102', 'T103'] },
+          { name: 'La Castellana', sub: 'Sector Comercial Paseo de la Castellana', connections: ['X101'] },
+          { name: 'Los Ejecutivos', sub: 'Acceso Gaviotas / Los Alpes', connections: ['T102'] },
+          { name: 'Los Ángeles', sub: 'Sector La Castellana Norte', connections: ['T103'] },
+          { name: 'Cuatro Vientos', sub: 'Acceso Av. Pedro Romero / Olaya Herrera', badge: 'Transbordo', tagColor: 'bg-secondary text-white', connections: ['X104', 'X106'], isTransfer: true },
+          { name: 'Bazurto', sub: 'Sector Mercado Central y Av. El Lago', badge: 'Nodo Troncal', tagColor: 'bg-primary-container text-white', connections: ['Todas Troncales'], isTransfer: true },
+          { name: 'Delicias', sub: 'Barrio Pie de la Popa', connections: ['T102'] },
+          { name: 'La Popa', sub: 'Acceso Cerro de la Popa y Lo Amador', connections: ['T103'] },
+          { name: 'Centro', sub: 'Torre del Reloj / Plaza de la Paz', connections: ['T102', 'T103'] },
+          { name: 'La Bodeguita', sub: 'Avenida Blas de Lezo • Muelle Turístico', badge: 'Terminal Destino', tag: 'Retorno', isEnd: true }
+        ]
+      },
+      'T102': {
+        code: 'T102',
+        type: 'Línea Troncal Norte',
+        title: 'Portal Transcaribe ↔ Crespo',
+        badgeColor: 'bg-primary-container',
+        textColor: 'text-primary dark:text-[#ff9d5c]',
+        freq: '8 - 10 min',
+        outboundName: 'Hacia Crespo Cl 70',
+        inboundName: 'Hacia Portal',
+        stopsCount: '7 estaciones',
+        stops: [
+          { name: 'Patio Portal', sub: 'Salida de Patio de Operaciones', badge: 'Terminal Troncal', tag: 'Andén 2', isKey: true },
+          { name: 'Madre Bernarda', sub: 'Av. Pedro de Heredia', connections: ['T101', 'T103'] },
+          { name: 'Cuatro Vientos', sub: 'Transbordo Zona Central', connections: ['X104'] },
+          { name: 'Bazurto', sub: 'Mercado de Bazurto', connections: ['T101'] },
+          { name: 'Chambacú', sub: 'Mall Plaza / Conexión Laguna', connections: ['X104', 'X102'] },
+          { name: 'Marbella', sub: 'Avenida Santander Frente al Mar', connections: ['Crespo'] },
+          { name: 'Crespo Cl 70', sub: 'Acceso Aeropuerto Rafael Núñez', badge: 'Terminal Norte', tag: 'Retorno', isEnd: true }
+        ]
+      },
+      'T103': {
+        code: 'T103',
+        type: 'Línea Troncal Turística',
+        title: 'Portal Transcaribe ↔ Bocagrande',
+        badgeColor: 'bg-primary-container',
+        textColor: 'text-primary dark:text-[#ff9d5c]',
+        freq: '10 - 12 min',
+        outboundName: 'Hacia Bocagrande',
+        inboundName: 'Hacia Portal',
+        stopsCount: '7 estaciones',
+        stops: [
+          { name: 'Patio Portal', sub: 'Patio de Maniobras', badge: 'Terminal Troncal', tag: 'Andén 3', isKey: true },
+          { name: 'La Castellana', sub: 'Paseo de la Castellana', connections: ['T101'] },
+          { name: 'Bazurto', sub: 'Sector Mercado', connections: ['T101', 'T102'] },
+          { name: 'La Matuna', sub: 'Sector Financiero y Bancario', connections: ['T101'] },
+          { name: 'Base Naval', sub: 'Entrada a Bocagrande', badge: 'Punto Control', tagColor: 'bg-secondary text-white' },
+          { name: 'Bocagrande Cra 2', sub: 'Hotel Dann / Hospital de Bocagrande', connections: ['Zona Hotelera'] },
+          { name: 'Castillo Grande', sub: 'Calle 5 con Carrera 10', badge: 'Terminal Sur', tag: 'Retorno', isEnd: true }
+        ]
+      },
+      'X104': {
+        code: 'X104',
+        type: 'Línea Pretroncal Oriental',
+        title: 'Terminal de Transportes ↔ Centro Histórico',
+        badgeColor: 'bg-secondary',
+        textColor: 'text-secondary dark:text-[#bac8dc]',
+        freq: '12 - 15 min',
+        outboundName: 'Hacia Centro',
+        inboundName: 'Hacia Terminal',
+        stopsCount: '7 paradas',
+        stops: [
+          { name: 'Terminal de Transportes', sub: 'Salida Departamental e Intermunicipal', badge: 'Cabecera Pretroncal', tag: 'Bahía 1', isKey: true },
+          { name: 'El Pozón Central', sub: 'Parada Av. Cordialidad Cl 53', connections: ['A102'] },
+          { name: 'Villa Estrella', sub: 'Rotonda de Acceso', connections: ['Pretroncal'] },
+          { name: 'Ronda Real', sub: 'Intersección Pedro de Heredia', connections: ['T101', 'T102'] },
+          { name: 'Chambacú', sub: 'Avenida Pedro de Heredia Sector Norte', connections: ['T102'] },
+          { name: 'Centro La Matuna', sub: 'Plaza del Castillo', connections: ['T101'] },
+          { name: 'La Bodeguita', sub: 'Muelle Turístico', badge: 'Destino Final', tag: 'Retorno', isEnd: true }
+        ]
+      },
+      'X102': {
+        code: 'X102',
+        type: 'Línea Pretroncal Portuaria',
+        title: 'Portal ↔ El Bosque ↔ Manga',
+        badgeColor: 'bg-secondary',
+        textColor: 'text-secondary dark:text-[#bac8dc]',
+        freq: '10 - 14 min',
+        outboundName: 'Hacia Manga',
+        inboundName: 'Hacia Portal',
+        stopsCount: '5 paradas',
+        stops: [
+          { name: 'Patio Portal', sub: 'Plataforma Pretroncal', badge: 'Terminal', tag: 'Andén B', isKey: true },
+          { name: 'Diagonal 21', sub: 'Corredor Industrial de Ceballos', connections: ['Industrial'] },
+          { name: 'El Bosque Cl 24', sub: 'Sector Universidad Antonio Nariño', connections: ['Zona Portuaria'] },
+          { name: 'Puente Jiménez', sub: 'Entrada Barrio Manga', connections: ['Residencial'] },
+          { name: 'Manga 4ta Avenida', sub: 'Frente al Fuerte de San Sebastián', badge: 'Destino Manga', tag: 'Retorno', isEnd: true }
+        ]
+      },
+      'A101': {
+        code: 'A101',
+        type: 'Línea Alimentadora Nelson Mandela',
+        title: 'Ciudadela 2000 ↔ Portal Transcaribe',
+        badgeColor: 'bg-tertiary',
+        textColor: 'text-tertiary dark:text-gray-300',
+        freq: '12 - 15 min',
+        outboundName: 'Hacia Portal',
+        inboundName: 'Hacia Ciudadela',
+        stopsCount: '4 paradas',
+        stops: [
+          { name: 'Ciudadela 2000 Mz 45', sub: 'Paradero Zonal Comunitario', badge: 'Cabecera Barrial', tag: 'Punto 1', isKey: true },
+          { name: 'Nelson Mandela Sector Las Vegas', sub: 'Calle 18 con Cra 78', connections: ['Zona Sur'] },
+          { name: 'Circunvalar Sur', sub: 'Vía Conectora Industrial', connections: ['Alimentador'] },
+          { name: 'Patio Portal', sub: 'Plataforma Alimentadoras Transcaribe', badge: 'Integración SITM', tag: 'Llegada', isEnd: true }
+        ]
+      }
+    };
+
+    // Referencias DOM
+    const searchInput = document.getElementById('route-search-input');
+    const clearSearchBtn = document.getElementById('clear-search-btn');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const routeCards = document.querySelectorAll('.route-card');
+
+    const detailBadge = document.getElementById('detail-badge');
+    const detailType = document.getElementById('detail-type');
+    const detailTitle = document.getElementById('detail-title');
+    const detailFreq = document.getElementById('detail-freq');
+    const btnDirOutbound = document.getElementById('btn-dir-outbound');
+    const btnDirInbound = document.getElementById('btn-dir-inbound');
+    const timelineCountBadge = document.getElementById('timeline-count-badge');
+    const stationsTimeline = document.getElementById('stations-timeline');
+
+    let currentActiveCode = 'T101';
+    let activeCategory = 'ALL';
+
+    function renderRouteDetail(code) {
+      const route = routesData[code];
+      if (!route) return;
+
+      detailBadge.textContent = route.code;
+      detailBadge.className = `${route.badgeColor} text-white font-headline-xl text-headline-xl px-3.5 py-1 rounded-lg tabular-nums`;
+      
+      detailType.textContent = route.type;
+      detailType.className = `font-label-sm text-label-sm uppercase font-bold ${route.textColor} tracking-wide`;
+
+      detailTitle.textContent = route.title;
+      detailFreq.textContent = route.freq;
+
+      btnDirOutbound.querySelector('span:last-child').textContent = route.outboundName;
+      btnDirInbound.querySelector('span:last-child').textContent = route.inboundName;
+      timelineCountBadge.textContent = route.stopsCount;
+
+      let timelineHTML = '';
+      route.stops.forEach((stop, index) => {
+        const isFirst = index === 0;
+        const isLast = index === route.stops.length - 1;
+        const isTransfer = stop.isTransfer || stop.badge === 'Transbordo';
+
+        let dotClass = 'w-2.5 h-2.5 rounded-full bg-primary-container ring-2 ring-surface-container-lowest dark:ring-[#162130]';
+        if (isFirst || isLast) {
+          dotClass = 'w-3.5 h-3.5 rounded-full bg-on-secondary-fixed dark:bg-white ring-4 ring-surface-container-lowest dark:ring-[#162130]';
+        } else if (isTransfer) {
+          dotClass = 'w-3 h-3 rounded-full bg-primary-container ring-2 ring-surface-container-lowest dark:ring-[#162130]';
+        }
+
+        let containerClass = 'relative flex items-start justify-between gap-space-sm group';
+        if (isTransfer) {
+          containerClass += ' bg-surface-container-low/60 dark:bg-[#0f1722]/50 -ml-2 p-2 rounded-lg';
+        }
+
+        timelineHTML += `
+          <div class="${containerClass}">
+            <span class="absolute ${isTransfer ? '-left-4 top-3' : '-left-6 top-1.5'} ${dotClass}"></span>
+            <div class="flex flex-col ${isTransfer ? 'pl-3' : 'pl-2'}">
+              <div class="flex items-center gap-2">
+                <span class="${isFirst || isLast || isTransfer ? 'font-headline-sm text-headline-sm' : 'font-label-lg text-label-lg'} text-on-surface dark:text-white">
+                  ${stop.name}
+                </span>
+                ${stop.badge ? `<span class="font-label-sm text-label-sm ${stop.tagColor || 'bg-primary-container text-white'} px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">${stop.badge}</span>` : ''}
+              </div>
+              <span class="font-body-sm text-body-sm text-secondary dark:text-gray-400">${stop.sub}</span>
+            </div>
+            <div class="flex items-center gap-1 shrink-0 text-on-surface-variant dark:text-gray-300">
+              ${stop.tag ? `<span class="font-label-sm text-label-sm bg-surface-container dark:bg-white/10 px-2 py-1 rounded font-bold">${stop.tag}</span>` : ''}
+              ${stop.connections ? stop.connections.map(c => `<span class="font-label-sm text-label-sm bg-surface-container-low dark:bg-[#0f1722] px-1.5 py-0.5 rounded border border-surface-container/60 dark:border-white/5">${c}</span>`).join('') : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      stationsTimeline.innerHTML = timelineHTML;
+    }
+
+    function selectRoute(code) {
+      currentActiveCode = code;
+      routeCards.forEach(card => {
+        const icon = card.querySelector('.material-symbols-outlined:last-child');
+        if (card.getAttribute('data-code') === code) {
+          card.classList.add('shadow-md', 'ring-1', 'ring-primary-container/30');
+          card.classList.remove('opacity-75');
+          if (icon) {
+            icon.textContent = 'arrow_forward_ios';
+            icon.classList.add('text-primary-container');
+            icon.classList.remove('text-secondary', 'dark:text-gray-400');
+          }
+        } else {
+          card.classList.remove('shadow-md', 'ring-1', 'ring-primary-container/30');
+          if (icon) {
+            icon.textContent = 'chevron_right';
+            icon.classList.remove('text-primary-container');
+            icon.classList.add('text-secondary');
+          }
+        }
+      });
+      renderRouteDetail(code);
+    }
+
+    routeCards.forEach(card => {
+      card.addEventListener('click', () => {
+        selectRoute(card.getAttribute('data-code'));
+      });
+    });
+
+    function filterRoutes() {
+      const query = searchInput.value.toLowerCase().trim();
+      routeCards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat');
+        const searchContent = card.getAttribute('data-search') || '';
+        const matchCategory = (activeCategory === 'ALL' || cardCat === activeCategory);
+        const matchQuery = (query === '' || searchContent.includes(query) || card.getAttribute('data-code').toLowerCase().includes(query));
+
+        if (matchCategory && matchQuery) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+      clearSearchBtn.classList.toggle('hidden', query === '');
+    }
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.className = 'filter-tab px-4 py-2 font-label-md text-label-md text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white rounded transition-all flex items-center gap-1.5';
+        });
+        tab.className = 'filter-tab px-4 py-2 font-label-md text-label-md rounded transition-all bg-on-secondary-fixed dark:bg-white text-surface-container-lowest dark:text-[#0f1722] shadow-sm font-bold flex items-center gap-1.5';
+        activeCategory = tab.getAttribute('data-category');
+        filterRoutes();
+      });
+    });
+
+    searchInput.addEventListener('input', filterRoutes);
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      filterRoutes();
+      searchInput.focus();
+    });
+
+    btnDirOutbound.addEventListener('click', () => {
+      btnDirOutbound.className = 'flex-1 py-2 px-3 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 bg-on-secondary-fixed dark:bg-white text-surface-container-lowest dark:text-[#0f1722] shadow-sm font-bold';
+      btnDirInbound.className = 'flex-1 py-2 px-3 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white';
+    });
+
+    btnDirInbound.addEventListener('click', () => {
+      btnDirInbound.className = 'flex-1 py-2 px-3 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 bg-on-secondary-fixed dark:bg-white text-surface-container-lowest dark:text-[#0f1722] shadow-sm font-bold';
+      btnDirOutbound.className = 'flex-1 py-2 px-3 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white';
+    });
+
+    // Render Inicial
+    selectRoute('T101');
+  })();
+</script>
+
+
+</body></html>
