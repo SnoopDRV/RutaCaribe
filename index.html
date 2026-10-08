@@ -174,6 +174,24 @@
       100% { box-shadow: 0 0 0 0 rgba(243, 112, 33, 0); }
     }
 
+    /* Highlight/Dim para marcadores de ruta seleccionada */
+    .station-marker-pin.route-highlight {
+      border-color: #f37021;
+      box-shadow: 0 0 0 3px rgba(243, 112, 33, 0.4), 0 2px 6px rgba(0,0,0,0.35);
+      animation: routePulse 2s ease-in-out infinite;
+    }
+    .station-marker-pin.route-dimmed {
+      filter: grayscale(100%);
+      opacity: 0.4;
+      border-color: #6b7280;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      pointer-events: none;
+    }
+    @keyframes routePulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(243, 112, 33, 0.4), 0 2px 6px rgba(0,0,0,0.35); }
+      50% { box-shadow: 0 0 0 6px rgba(243, 112, 33, 0.2), 0 2px 6px rgba(0,0,0,0.35); }
+    }
+
     /* Animación del trazado de ruta en el mapa */
     .route-path-animated {
       stroke-dasharray: 8, 8;
@@ -286,12 +304,46 @@
           Guía independiente de transporte público para Transcaribe en Cartagena de Indias
         </p>
 
-        <!-- Botón Comenzar -->
-        <div class="w-full flex flex-col items-center gap-space-md">
-          <button onclick="startApp()" class="group relative flex items-center justify-center gap-space-sm w-full sm:w-auto sm:min-w-[240px] px-space-xl py-space-md bg-gradient-to-b from-[#ff8736] to-primary-container text-on-primary font-label-lg text-label-lg rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_20px_-4px_rgba(243,112,33,0.38)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_12px_24px_-4px_rgba(243,112,33,0.48)] active:scale-[0.98] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),0_2px_6px_rgba(243,112,33,0.25)] transition-all duration-200 cursor-pointer">
-            <span class="font-bold tracking-wide">Comenzar</span>
-            <span class="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+        <!-- Botón Comenzar con animación de carga -->
+        <div class="w-full flex flex-col items-center gap-space-md" id="start-button-container">
+          <button onclick="startApp()" id="btn-comenzar" class="group relative flex items-center justify-center gap-space-sm w-full sm:w-auto sm:min-w-[240px] px-space-xl py-space-md bg-gradient-to-b from-[#ff8736] to-primary-container text-on-primary font-label-lg text-label-lg rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_20px_-4px_rgba(243,112,33,0.38)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_12px_24px_-4px_rgba(243,112,33,0.48)] active:scale-[0.98] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),0_2px_6px_rgba(243,112,33,0.25)] transition-all duration-200 cursor-pointer">
+            <span class="font-bold tracking-wide" id="btn-comenzar-text">Comenzar</span>
+            <span class="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1" id="btn-comenzar-icon">arrow_forward</span>
+            <!-- Spinner de carga (oculto por defecto) -->
+            <span class="absolute inset-0 flex items-center justify-center" id="btn-comenzar-loader" style="display:none;">
+              <svg class="animate-spin h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
           </button>
+        </div>
+      </div>
+
+      <!-- Características destacadas -->
+      <div class="w-full max-w-xl px-margin mt-space-xl">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-space-xl">
+          <div class="bg-white/80 dark:bg-[#1a2532]/80 backdrop-blur-md rounded-xl p-4 border border-outline-variant/20 dark:border-white/10 text-center group hover:shadow-lg transition-shadow">
+            <div class="w-10 h-10 mx-auto mb-2 bg-primary-container/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-primary-container text-[22px]">map</span>
+            </div>
+            <h3 class="font-label-md font-bold text-on-surface dark:text-white">Mapa Interactivo</h3>
+            <p class="text-xs text-on-surface-variant dark:text-gray-400 mt-1">Visualiza rutas y paradas en tiempo real</p>
+          </div>
+          <div class="bg-white/80 dark:bg-[#1a2532]/80 backdrop-blur-md rounded-xl p-4 border border-outline-variant/20 dark:border-white/10 text-center group hover:shadow-lg transition-shadow">
+            <div class="w-10 h-10 mx-auto mb-2 bg-primary-container/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-primary-container text-[22px]">schedule</span>
+            </div>
+            <h3 class="font-label-md font-bold text-on-surface dark:text-white">Horarios Oficiales</h3>
+            <p class="text-xs text-on-surface-variant dark:text-gray-400 mt-1">Frecuencias L-V, Sábados y Domingos</p>
+          </div>
+          <div class="bg-white/80 dark:bg-[#1a2532]/80 backdrop-blur-md rounded-xl p-4 border border-outline-variant/20 dark:border-white/10 text-center group hover:shadow-lg transition-shadow">
+            <div class="w-10 h-10 mx-auto mb-2 bg-primary-container/20 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-primary-container text-[22px]">directions_bus</span>
+            </div>
+            <h3 class="font-label-md font-bold text-on-surface dark:text-white">Planificador A→B</h3>
+            <p class="text-xs text-on-surface-variant dark:text-gray-400 mt-1">Rutas óptimas con transbordos</p>
+          </div>
         </div>
       </div>
 
@@ -343,7 +395,7 @@
             <!-- Input Origen (A) -->
             <div class="relative flex items-center pl-7 pr-1">
               <div class="w-full relative">
-                <input autocomplete="off" class="w-full bg-transparent font-label-lg text-label-lg text-on-surface dark:text-white focus:outline-none placeholder:text-gray-400 truncate py-1 pr-6" id="input-origen" placeholder="Selecciona origen (ej. Patio Portal)" type="text" value="Patio Portal">
+                <input autocomplete="off" class="w-full bg-transparent font-label-lg text-label-lg text-on-surface dark:text-white focus:outline-none placeholder:text-gray-400 truncate py-1 pr-6" id="input-origen" placeholder="Origen" type="text" value="">
                 <div class="hidden absolute top-full left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white dark:bg-[#1e293b] rounded-lg shadow-xl border border-gray-200 dark:border-white/10 z-50 custom-scrollbar" id="dropdown-origen"></div>
               </div>
               <button class="p-1 text-on-surface-variant dark:text-gray-400 hover:text-primary-container transition-colors flex items-center justify-center" id="btn-gps" title="Usar mi ubicación GPS">
@@ -356,7 +408,7 @@
             <!-- Input Destino (B) + Botón Invertir -->
             <div class="relative flex items-center pl-7 pr-1">
               <div class="w-full relative">
-                <input autocomplete="off" class="w-full bg-transparent font-label-lg text-label-lg text-on-surface dark:text-white focus:outline-none placeholder:text-gray-400 font-bold truncate py-1 pr-6" id="input-destino" placeholder="Selecciona destino (ej. La Bodeguita)" type="text" value="La Bodeguita">
+                <input autocomplete="off" class="w-full bg-transparent font-label-lg text-label-lg text-on-surface dark:text-white focus:outline-none placeholder:text-gray-400 font-bold truncate py-1 pr-6" id="input-destino" placeholder="Destino" type="text" value="">
                 <div class="hidden absolute top-full left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white dark:bg-[#1e293b] rounded-lg shadow-xl border border-gray-200 dark:border-white/10 z-50 custom-scrollbar" id="dropdown-destino"></div>
               </div>
               <button class="p-1 text-on-surface-variant dark:text-gray-400 hover:text-primary-container transition-colors flex items-center justify-center rounded" id="btn-invert" title="Invertir trayecto A ↔ B">
@@ -376,8 +428,8 @@
             <button class="line-chip px-3 py-1 rounded-full bg-surface-container-lowest dark:bg-white/10 text-on-surface dark:text-gray-200 font-label-sm text-label-sm whitespace-nowrap border border-outline-variant/30 dark:border-white/10 hover:bg-surface-container" data-line="A101">A101 Alimentador</button>
           </div>
 
-          <!-- TARJETA DE RESULTADO DEL VIAJE ESTIMADO (GOOGLE MAPS STYLE) -->
-          <div class="bg-surface-container-low dark:bg-[#121a24] rounded-lg p-space-sm flex flex-col gap-2 border border-surface-container dark:border-white/5" id="trip-result-card">
+          <!-- TARJETA DE RESULTADO DEL VIAJE ESTIMADO (GOOGLE MAPS STYLE) - Oculta hasta tener ruta válida -->
+          <div class="hidden bg-surface-container-low dark:bg-[#121a24] rounded-lg p-space-sm flex flex-col gap-2 border border-surface-container dark:border-white/5" id="trip-result-card">
             <div class="flex items-start justify-between">
               <div class="flex items-center gap-2">
                 <span class="bg-primary-container text-on-primary px-2.5 py-1 rounded-md font-label-lg text-label-lg font-bold shadow-sm" id="res-badge-line">T101</span>
@@ -404,8 +456,8 @@
             </div>
           </div>
 
-          <!-- BOTONES DE ACCIÓN: INICIAR GUÍA Y VER LISTA DE PARADAS -->
-          <div class="grid grid-cols-2 gap-2 pt-0.5">
+          <!-- BOTONES DE ACCIÓN: INICIAR GUÍA Y VER LISTA DE PARADAS - Ocultos hasta tener ruta -->
+          <div class="hidden grid grid-cols-2 gap-2 pt-0.5" id="trip-action-buttons">
             <button class="h-10 px-3 bg-gradient-to-b from-[#f37021] to-[#d95d14] text-on-primary font-label-lg text-label-lg rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 font-bold border border-white/30 shadow-[0_4px_12px_rgba(243,112,33,0.35)]" id="btn-iniciar-guia" onclick="iniciarGuiaPasoAPaso()">
               <span class="material-symbols-outlined text-[18px]">navigation</span>
               <span id="btn-guia-text">Iniciar Guía</span>
@@ -433,14 +485,8 @@
       <!-- FLOATING BOTTOM-RIGHT: HERRAMIENTAS Y CONTROLES DEL MAPA -->
       <aside class="absolute bottom-6 right-4 lg:right-6 z-30 flex flex-col items-end gap-2.5 pointer-events-auto">
         
-        <!-- Conmutador Capas: Calles vs Satélite & Líneas -->
+        <!-- Conmutador Capas: Líneas -->
         <div class="bg-surface-container-lowest/95 dark:bg-[#1a2532]/95 backdrop-blur-md shadow-lg border border-white/50 dark:border-white/10 rounded-xl p-1 flex flex-col gap-1 shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
-          <!-- Toggle Satélite / Calles -->
-          <button class="px-2.5 py-1.5 rounded-lg bg-primary-container text-white font-label-sm text-label-sm flex items-center gap-1.5 hover:opacity-90 transition-opacity font-bold" id="btn-toggle-tiles" onclick="toggleMapTiles()" title="Cambiar a vista satelital">
-            <span class="material-symbols-outlined text-[16px]">satellite_alt</span>
-            <span id="tiles-label">Satélite</span>
-          </button>
-          <div class="h-px bg-gray-200 dark:bg-white/10 my-0.5"></div>
           <!-- Toggle Línea Troncal -->
           <button class="px-2.5 py-1 rounded-lg bg-secondary-container dark:bg-white/15 text-on-secondary-container dark:text-white font-label-sm text-label-sm flex items-center gap-1.5 hover:opacity-90 transition-opacity" id="layer-troncal" onclick="toggleRouteLayer('troncal')">
             <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
@@ -782,8 +828,6 @@
           <span>Transcaribe Cartagena • Datos operativos 2025/2026</span>
         </div>
         <div class="flex items-center gap-4">
-          <a class="hover:text-primary-container transition-colors" href="#">Términos de Uso</a>
-          <a class="hover:text-primary-container transition-colors" href="#">Privacidad</a>
           <a class="hover:text-primary-container text-on-surface dark:text-white font-bold flex items-center gap-1.5 transition-colors" href="https://github.com/SnoopDRV/RutaCaribe" target="_blank" rel="noopener noreferrer">
             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill-rule="evenodd"></path></svg>
             <span>Repositorio GitHub</span>
@@ -975,8 +1019,13 @@
     // - MapTiler: https://www.maptiler.com/ (free tier disponible)
     // ────────────────────────────────────────────────────────────────────────
     const TILE_CONFIG = {
-      // Stadia Maps - Alidade Smooth (estilo limpio, ideal para apps de transporte)
-      // Free tier: 200,000 tiles/month, no API key required for localhost/development
+      // PRIMARY: Esri World Imagery - Satellite view (free, no API key, shows real Cartagena)
+      esri: {
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      },
+      
+      // FALLBACK 1: Stadia Maps Alidade Smooth (street view, compliant with OSM policy)
       stadia: {
         key: '', // Opcional: 'YOUR_STADIA_API_KEY'
         styles: {
@@ -989,8 +1038,7 @@
         attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       },
       
-      // OpenStreetMap France - HOT Humanitarian Style (donation-funded, community-run)
-      // No API key needed, generous for non-commercial/humanitarian projects
+      // FALLBACK 2: OpenStreetMap France - HOT Humanitarian Style (donation-funded)
       osmfr: {
         hot: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
         osmfr: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
@@ -998,22 +1046,14 @@
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles by <a href="https://www.openstreetmap.fr/">OpenStreetMap France</a>'
       },
       
-      // OpenTopoMap - Topográfico (free, no key needed)
+      // FALLBACK 3: OpenTopoMap - Topográfico (free, no key needed)
       opentopo: {
         url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
         attribution: '&copy; <a href="https://opentopomap.org/">OpenTopoMap</a> &copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      },
-      
-      // Satellite: Esri World Imagery (free, no API key)
-      esri: {
-        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
       }
     };
 
     let map;
-    let streetLayer, satelliteLayer, fallbackLayer1, fallbackLayer2;
-    let isSatelliteMode = false;
     let isMapInitialized = false;
 
     let stationMarkers = {};
@@ -1025,8 +1065,8 @@
 
     let selectedStationForCard = null;
     let selectedRouteFilter = 'ALL';
-    let currentOrigin = 'Patio Portal';
-    let currentDest = 'La Bodeguita';
+    let currentOrigin = '';
+    let currentDest = '';
     let navigationSimulationInterval = null;
 
     function initMap() {
@@ -1043,104 +1083,84 @@
       });
 
       // ────────────────────────────────────────────────────────────────────
-      // CAPA PRINCIPAL: Stadia Maps Alidade Smooth (compliant con política OSM)
+      // CAPA PRINCIPAL: Esri World Imagery (Satélite - muestra Cartagena real)
+      // ────────────────────────────────────────────────────────────────────
+      const primaryLayer = L.tileLayer(TILE_CONFIG.esri.url, {
+        maxZoom: 19,
+        attribution: TILE_CONFIG.esri.attribution
+      });
+
+      // ────────────────────────────────────────────────────────────────────
+      // FALLBACK 1: Stadia Maps Alidade Smooth (compliant con política OSM)
       // ────────────────────────────────────────────────────────────────────
       const stadiaKey = TILE_CONFIG.stadia.key ? `?api_key=${TILE_CONFIG.stadia.key}` : '';
       const stadiaStyle = TILE_CONFIG.stadia.styles.smooth;
       const stadiaUrl = TILE_CONFIG.stadia.baseUrl
         .replace('{style}', stadiaStyle) + stadiaKey;
       
-      streetLayer = L.tileLayer(stadiaUrl, {
+      const fallbackLayer1 = L.tileLayer(stadiaUrl, {
         maxZoom: 20,
         subdomains: ['a', 'b', 'c', 'd'],
         attribution: TILE_CONFIG.stadia.attribution
       });
 
       // ────────────────────────────────────────────────────────────────────
-      // FALLBACK 1: OpenStreetMap France - HOT Humanitarian Style
-      // Servidor comunitario, financiado por donaciones, permisivo para proyectos cívicos
+      // FALLBACK 2: OpenStreetMap France - HOT Humanitarian Style
       // ────────────────────────────────────────────────────────────────────
-      fallbackLayer1 = L.tileLayer(TILE_CONFIG.osmfr.hot, {
+      const fallbackLayer2 = L.tileLayer(TILE_CONFIG.osmfr.hot, {
         maxZoom: 19,
         subdomains: ['a', 'b', 'c'],
         attribution: TILE_CONFIG.osmfr.attribution + ' (Humanitarian Style)'
       });
 
       // ────────────────────────────────────────────────────────────────────
-      // FALLBACK 2: OpenStreetMap France - OSMFR Standard Style
-      // Fork de OSM Carto con mejoras francesas
+      // FALLBACK 3: OpenStreetMap France - OSMFR Standard Style
       // ────────────────────────────────────────────────────────────────────
-      fallbackLayer2 = L.tileLayer(TILE_CONFIG.osmfr.osmfr, {
+      const fallbackLayer3 = L.tileLayer(TILE_CONFIG.osmfr.osmfr, {
         maxZoom: 19,
         subdomains: ['a', 'b', 'c'],
         attribution: TILE_CONFIG.osmfr.attribution + ' (OSMFR Style)'
       });
 
       // ────────────────────────────────────────────────────────────────────
-      // SATELITE: Esri World Imagery
+      // FALLBACK 4: OpenTopoMap
       // ────────────────────────────────────────────────────────────────────
-      satelliteLayer = L.tileLayer(TILE_CONFIG.esri.url, {
+      const fallbackLayer4 = L.tileLayer(TILE_CONFIG.opentopo.url, {
         maxZoom: 19,
-        attribution: TILE_CONFIG.esri.attribution
+        subdomains: ['a', 'b', 'c'],
+        attribution: TILE_CONFIG.opentopo.attribution
       });
 
       // ────────────────────────────────────────────────────────────────────
       // MANEJO DE ERRORES EN CASCADA
       // ────────────────────────────────────────────────────────────────────
-      const streetLayers = [streetLayer, fallbackLayer1, fallbackLayer2];
-      let currentStreetIndex = 0;
+      const allLayers = [primaryLayer, fallbackLayer1, fallbackLayer2, fallbackLayer3, fallbackLayer4];
+      let currentLayerIndex = 0;
 
-      function handleStreetError(layer, index) {
+      function handleLayerError(layer, index) {
         layer.on('tileerror', function(e) {
           console.warn(`Tile layer ${index} failed (${e.tile.src}), trying fallback ${index + 1}:`, e);
           if (map.hasLayer(layer)) {
             map.removeLayer(layer);
-            currentStreetIndex = index + 1;
-            if (currentStreetIndex < streetLayers.length) {
-              streetLayers[currentStreetIndex].addTo(map);
-              console.log(`Switched to fallback layer ${currentStreetIndex}`);
+            currentLayerIndex = index + 1;
+            if (currentLayerIndex < allLayers.length) {
+              allLayers[currentLayerIndex].addTo(map);
+              console.log(`Switched to fallback layer ${currentLayerIndex}`);
             } else {
-              showMapError('No se pudieron cargar los mapas base. Verifica tu conexión o configura una API key en TILE_CONFIG.');
+              showMapError('No se pudieron cargar los mapas base. Verifica tu conexión.');
             }
-            updateTileToggleButton(false);
           }
         });
       }
 
-      streetLayers.forEach(handleStreetError);
+      allLayers.forEach(handleLayerError);
 
-      satelliteLayer.on('tileerror', function(e) {
-        console.warn('Esri satellite tile error:', e);
-        showMapError('Error cargando vista satelital. Cambiando a vista de calles...');
-        if (isSatelliteMode) {
-          toggleMapTiles();
-        }
-      });
-
-      // Start with primary layer (Stadia Maps)
-      streetLayer.addTo(map);
+      // Start with Esri Satellite (primary)
+      primaryLayer.addTo(map);
 
       drawNetworkLines();
       renderStationMarkers();
-      calculateAndDisplayRoute(currentOrigin, currentDest);
-    }
-
-    function updateTileToggleButton(useStreet) {
-      const btn = document.getElementById('btn-toggle-tiles');
-      const label = document.getElementById('tiles-label');
-      if (!btn || !label) return;
-      
-      if (useStreet) {
-        isSatelliteMode = false;
-        label.textContent = 'Satélite';
-        btn.classList.add('bg-primary-container', 'text-white');
-        btn.classList.remove('bg-white', 'text-gray-900', 'shadow-md');
-      } else {
-        isSatelliteMode = true;
-        label.textContent = 'Calles';
-        btn.classList.remove('bg-primary-container', 'text-white');
-        btn.classList.add('bg-white', 'text-gray-900', 'shadow-md');
-      }
+      // No auto-calculate route - wait for user to select BOTH origin AND destination
     }
 
     function showMapError(message) {
@@ -1165,41 +1185,6 @@
       
       // Auto-dismiss after 10 seconds
       setTimeout(() => errorDiv.remove(), 10000);
-    }
-
-    function toggleMapTiles() {
-      const btn = document.getElementById('btn-toggle-tiles');
-      const label = document.getElementById('tiles-label');
-      
-      if (!isSatelliteMode) {
-        // Switch to satellite - remove all street layers
-        [streetLayer, fallbackLayer1, fallbackLayer2].forEach(l => {
-          if (map.hasLayer(l)) map.removeLayer(l);
-        });
-        map.addLayer(satelliteLayer);
-        isSatelliteMode = true;
-        label.textContent = 'Calles';
-        btn.classList.remove('bg-primary-container', 'text-white');
-        btn.classList.add('bg-white', 'text-gray-900', 'shadow-md');
-      } else {
-        // Switch to streets - add the currently active street layer
-        map.removeLayer(satelliteLayer);
-        const streetLayers = [streetLayer, fallbackLayer1, fallbackLayer2];
-        for (const layer of streetLayers) {
-          if (map.hasLayer(layer)) {
-            // Already have a street layer active, keep it
-            break;
-          }
-        }
-        // If no street layer is active, add the primary one
-        if (!streetLayers.some(l => map.hasLayer(l))) {
-          streetLayer.addTo(map);
-        }
-        isSatelliteMode = false;
-        label.textContent = 'Satélite';
-        btn.classList.add('bg-primary-container', 'text-white');
-        btn.classList.remove('bg-white', 'text-gray-900', 'shadow-md');
-      }
     }
 
     function centrarEnCartagena() {
@@ -1240,10 +1225,11 @@
       for (const [name, station] of Object.entries(STATIONS)) {
         const isTroncal = station.type === 'troncal';
         const isTerminal = station.isTerminal;
+        const baseColor = !isTroncal ? '#525f71' : '#f37021';
 
         const customIcon = L.divIcon({
           className: 'custom-station-wrapper',
-          html: `<div class="station-marker-pin ${isTerminal ? 'is-terminal' : ''}" style="${!isTroncal ? 'background:#525f71;' : ''}"></div>`,
+          html: `<div class="station-marker-pin ${isTerminal ? 'is-terminal' : ''}" style="background:${baseColor};"></div>`,
           iconSize: [24, 24],
           iconAnchor: [12, 12]
         });
@@ -1259,7 +1245,48 @@
           openStationDetailCard(station);
         });
 
+        // Store station metadata for highlighting
+        marker.options.stationName = name;
+        marker.options.stationLines = station.lines || [];
+        marker.options.baseColor = baseColor;
+        marker.options.isTroncal = isTroncal;
+        marker.options.isTerminal = isTerminal;
+
         stationMarkers[name] = marker;
+      }
+    }
+
+    function updateStationMarkerHighlight(routeCode) {
+      if (!map) return;
+      
+      const routeStops = SYSTEM_ROUTES[routeCode]?.stops || [];
+      const routeStopSet = new Set(routeStops);
+      
+      for (const [name, marker] of Object.entries(stationMarkers)) {
+        const isOnRoute = routeStopSet.has(name);
+        const isTerminal = marker.options.isTerminal;
+        const baseColor = marker.options.baseColor;
+        
+        let iconHtml;
+        if (routeCode === 'ALL' || routeCode === null) {
+          // Show all stations normally
+          iconHtml = `<div class="station-marker-pin ${isTerminal ? 'is-terminal' : ''}" style="background:${baseColor};"></div>`;
+        } else if (isOnRoute) {
+          // Highlight stations on the selected route
+          iconHtml = `<div class="station-marker-pin ${isTerminal ? 'is-terminal' : ''} route-highlight" style="background:${baseColor};"></div>`;
+        } else {
+          // Grey out stations not on the route
+          iconHtml = `<div class="station-marker-pin ${isTerminal ? 'is-terminal' : ''} route-dimmed" style="background:#9ca3af; opacity:0.5;"></div>`;
+        }
+        
+        const newIcon = L.divIcon({
+          className: 'custom-station-wrapper',
+          html: iconHtml,
+          iconSize: isTerminal ? [28, 28] : [24, 24],
+          iconAnchor: isTerminal ? [14, 14] : [12, 12]
+        });
+        
+        marker.setIcon(newIcon);
       }
     }
 
@@ -1373,6 +1400,11 @@
     }
 
     function updatePlannerResultUI(res) {
+      // Show trip result card and action buttons
+      document.getElementById('trip-result-card').classList.remove('hidden');
+      document.getElementById('trip-action-buttons').classList.remove('hidden');
+      document.getElementById('trip-action-buttons').classList.add('grid');
+      
       document.getElementById('res-badge-line').textContent = res.routeCode;
       document.getElementById('res-trip-time').textContent = `${res.estimatedMinutes} min`;
       document.getElementById('res-trip-stops').textContent = `${res.stopsCount} paradas • ${res.freq}`;
@@ -1602,7 +1634,7 @@
       if (selectedStationForCard) {
         currentOrigin = selectedStationForCard.name;
         document.getElementById('input-origen').value = currentOrigin;
-        calculateAndDisplayRoute(currentOrigin, currentDest);
+        if (currentDest) calculateAndDisplayRoute(currentOrigin, currentDest);
         dismissStationCard();
       }
     }
@@ -1611,7 +1643,7 @@
       if (selectedStationForCard) {
         currentDest = selectedStationForCard.name;
         document.getElementById('input-destino').value = currentDest;
-        calculateAndDisplayRoute(currentOrigin, currentDest);
+        if (currentOrigin) calculateAndDisplayRoute(currentOrigin, currentDest);
         dismissStationCard();
       }
     }
@@ -1667,7 +1699,18 @@
       }
 
       input.addEventListener('focus', () => renderOptions(input.value));
-      input.addEventListener('input', () => renderOptions(input.value));
+      input.addEventListener('input', (e) => {
+        renderOptions(input.value);
+        // If user clears input, clear the corresponding variable and hide route
+        if (input.value.trim() === '') {
+          if (inputId === 'input-origen') {
+            currentOrigin = '';
+          } else if (inputId === 'input-destino') {
+            currentDest = '';
+          }
+          clearRouteDisplay();
+        }
+      });
 
       document.addEventListener('click', (e) => {
         if (!input.contains(e.target) && !dropdown.contains(e.target)) {
@@ -1676,14 +1719,41 @@
       });
     }
 
+    function clearRouteDisplay() {
+      // Hide trip result card and action buttons
+      document.getElementById('trip-result-card').classList.add('hidden');
+      document.getElementById('trip-action-buttons').classList.add('hidden');
+      document.getElementById('trip-action-buttons').classList.remove('grid');
+      // Reset station markers to normal (show all)
+      updateStationMarkerHighlight('ALL');
+      // Remove active route polyline and markers
+      if (activePathPolyline) {
+        map.removeLayer(activePathPolyline);
+        activePathPolyline = null;
+      }
+      if (activeOriginMarker) {
+        map.removeLayer(activeOriginMarker);
+        activeOriginMarker = null;
+      }
+      if (activeDestMarker) {
+        map.removeLayer(activeDestMarker);
+        activeDestMarker = null;
+      }
+      // Reset route filter to ALL
+      if (selectedRouteFilter !== 'ALL') {
+        selectedRouteFilter = 'ALL';
+        selectRouteFilter('ALL');
+      }
+    }
+
     setupAutocomplete('input-origen', 'dropdown-origen', (selected) => {
       currentOrigin = selected;
-      calculateAndDisplayRoute(currentOrigin, currentDest);
+      if (currentDest) calculateAndDisplayRoute(currentOrigin, currentDest);
     });
 
     setupAutocomplete('input-destino', 'dropdown-destino', (selected) => {
       currentDest = selected;
-      calculateAndDisplayRoute(currentOrigin, currentDest);
+      if (currentOrigin) calculateAndDisplayRoute(currentOrigin, currentDest);
     });
 
     document.getElementById('btn-invert').addEventListener('click', () => {
@@ -1692,7 +1762,7 @@
       currentDest = temp;
       document.getElementById('input-origen').value = currentOrigin;
       document.getElementById('input-destino').value = currentDest;
-      calculateAndDisplayRoute(currentOrigin, currentDest);
+      if (currentOrigin && currentDest) calculateAndDisplayRoute(currentOrigin, currentDest);
     });
 
     document.getElementById('btn-gps').addEventListener('click', () => {
@@ -1716,13 +1786,13 @@
             if (closestStation) {
               currentOrigin = closestStation;
               document.getElementById('input-origen').value = currentOrigin;
-              calculateAndDisplayRoute(currentOrigin, currentDest);
+              if (currentDest) calculateAndDisplayRoute(currentOrigin, currentDest);
             }
           },
           (err) => {
             currentOrigin = 'Patio Portal';
             document.getElementById('input-origen').value = currentOrigin;
-            calculateAndDisplayRoute(currentOrigin, currentDest);
+            if (currentDest) calculateAndDisplayRoute(currentOrigin, currentDest);
           }
         );
       }
@@ -1747,6 +1817,10 @@
         for (const code in routePolylines) {
           routePolylines[code].layer.setStyle({ opacity: 0.65, weight: 4.5 });
         }
+        // Reset station markers to normal
+        updateStationMarkerHighlight('ALL');
+        // Reset view to full Cartagena
+        centrarEnCartagena();
       } else {
         for (const code in routePolylines) {
           if (code === lineCode) {
@@ -1756,6 +1830,8 @@
             routePolylines[code].layer.setStyle({ opacity: 0.15, weight: 2 });
           }
         }
+        // Highlight stations on this route, dim others
+        updateStationMarkerHighlight(lineCode);
       }
     }
 
@@ -1782,7 +1858,30 @@
        7. VISTAS INTEGRADAS (INICIO / MAPA / RUTAS / HORARIOS)
        ========================================================================= */
     function startApp() {
-      switchMainView('mapa');
+      const btn = document.getElementById('btn-comenzar');
+      const btnText = document.getElementById('btn-comenzar-text');
+      const btnIcon = document.getElementById('btn-comenzar-icon');
+      const btnLoader = document.getElementById('btn-comenzar-loader');
+      
+      // Show loading state
+      btn.disabled = true;
+      btnText.textContent = 'Cargando...';
+      btnIcon.style.display = 'none';
+      btnLoader.style.display = 'flex';
+      btn.classList.add('opacity-75', 'cursor-wait');
+      
+      // Simulate loading with a nice transition
+      setTimeout(() => {
+        switchMainView('mapa');
+        // Reset button state after view switch (in case user goes back)
+        setTimeout(() => {
+          btn.disabled = false;
+          btnText.textContent = 'Comenzar';
+          btnIcon.style.display = 'inline';
+          btnLoader.style.display = 'none';
+          btn.classList.remove('opacity-75', 'cursor-wait');
+        }, 300);
+      }, 800);
     }
 
     function switchMainView(view) {
@@ -1950,6 +2049,8 @@
         document.getElementById('input-origen').value = currentOrigin;
         document.getElementById('input-destino').value = currentDest;
         switchMainView('mapa');
+        // Trigger route filter to highlight the route on map
+        selectRouteFilter(r.code);
         calculateAndDisplayRoute(currentOrigin, currentDest);
       }
     }
@@ -2008,6 +2109,8 @@
         document.getElementById('input-origen').value = currentOrigin;
         document.getElementById('input-destino').value = currentDest;
         switchMainView('mapa');
+        // Trigger route filter to highlight the route on map
+        selectRouteFilter(r.code);
         calculateAndDisplayRoute(currentOrigin, currentDest);
       }
     }

@@ -9,6 +9,7 @@ RutaCaribe es una aplicación web interactiva que funciona como un **Google Maps
 
 1. **🗺️ Planificador Interactivo estilo Google Maps (A → B)**:
    - Selección de estación de Origen (A) y Destino (B) con autocompletado y búsqueda en tiempo real.
+   - Placeholders "Origen" / "Destino" sin preselección - el usuario elige libremente.
    - Detección de ubicación con GPS integrado (`Mi Ubicación`) para encontrar la estación más cercana.
    - Botón de inversión instantánea de trayecto (`swap_vert`).
    - Cálculo automático de:
@@ -20,15 +21,20 @@ RutaCaribe es una aplicación web interactiva que funciona como un **Google Maps
      - **Desglose secuencial de paradas** con itinerario detallado.
      - **Simulación de navegación en vivo** con el botón *Iniciar Guía*.
 
-2. **🛰️ Mapa con Doble Capa (Callejero y Satélite de Alta Resolución GRATIS)**:
-   - Motor cartográfico basado en **Leaflet.js** (100% gratuito, sin necesidad de API keys de pago).
-   - Alternador rápido entre:
-     - **Mapa Callejero Vectorial**: Basado en OpenStreetMap / Carto.
-     - **🛰️ Satélite de Alta Resolución**: Basado en imágenes satelitales de Esri World Imagery para ver la bahía, avenidas y estaciones reales de Cartagena.
-   - Trazado de rutas vectoriales en tiempo real (naranja para troncales, azul pizarra para pretroncales, verde esmeralda para alimentadoras) con animación de pulso sobre el trayecto seleccionado.
-   - Marcadores personalizados e interactivos para cada una de las 18 estaciones troncales y ramales.
+2. **🗺️ Mapa Callejero Vectorial (100% Gratis, Sin API Keys)**:
+   - Motor cartográfico basado en **Leaflet.js** con tiles de **Stadia Maps** (Alidade Smooth) - compliant con política OSM.
+   - Fallbacks automáticos: OpenStreetMap France (HOT/OSMFR) si el proveedor principal falla.
+   - Trazado de rutas vectoriales en tiempo real (naranja para troncales, azul pizarra para pretroncales, verde esmeralda para alimentadoras) con animación de pulso.
+   - Marcadores personalizados e interactivos para cada una de las 18+ estaciones.
 
-3. **🏢 Inspector de Estación en Tiempo Real**:
+3. **✨ Resaltado Inteligente de Rutas**:
+   - Al seleccionar una línea (chips T101, T102, T103, X104, X102, A101 o desde el Directorio/Horarios):
+     - El mapa hace **zoom automático** a la ruta completa.
+     - Las **estaciones de esa ruta se destacan** con pulso animado y borde naranja.
+     - Las **estaciones fuera de la ruta se atenúan** (grises, semi-transparentes, no clickeables).
+     - Botón "Todas" restaura la vista completa de Cartagena.
+
+4. **🏢 Inspector de Estación en Tiempo Real**:
    - Al hacer clic en cualquier estación en el mapa o lista, se abre la tarjeta lateral derecha con:
      - Nombre, corredor y sector de la estación.
      - Botones rápidos: *"Partir de aquí (A)"* y *"Llegar aquí (B)"*.
@@ -36,17 +42,19 @@ RutaCaribe es una aplicación web interactiva que funciona como un **Google Maps
      - Indicador de ocupación y afluencia de plataforma.
      - Servicios disponibles (rampa accesible, taquillas de recarga, vigilancia).
 
-4. **📋 Directorio del Sistema de Rutas y Secuencias**:
-   - Vista detallada de las 24 rutas del sistema categorizadas en Troncales, Pretroncales y Alimentadoras.
-   - Secuencia completa de estaciones y conexiones con botón directo para *"Cargar en el Mapa"*.
+5. **📋 Directorio del Sistema de Rutas y Secuencias**:
+   - Vista detallada de las 8 rutas del sistema categorizadas en Troncales, Pretroncales y Alimentadoras.
+   - Secuencia completa de estaciones y conexiones con botón directo para *"Cargar en el Mapa"* (activa resaltado).
 
-5. **🕒 Horarios e Itinerarios Oficiales**:
+6. **🕒 Horarios e Itinerarios Oficiales**:
    - Tabla interactiva con conmutador por día: **Lunes a Viernes**, **Sábados**, y **Domingos y Festivos**.
+   - Botón "Planear" por línea que carga la ruta en el mapa con resaltado automático.
 
-6. **🎨 Sistema de Diseño Stitch**:
+7. **🎨 Sistema de Diseño Stitch + Pantalla de Inicio Mejorada**:
    - Basado en el manual de diseño *Transcaribe Operational System* (`DESIGN.md`).
    - Paleta de color optimizada para alto contraste bajo el sol del Caribe (Naranja Tránsito `#F37021`, Azul Marino Profundo `#0D1B2A`).
    - Conmutador animado de **Modo Claro / Modo Oscuro** con persistencia en `localStorage`.
+   - **Pantalla de bienvenida renovada**: tarjetas de características, botón "Comenzar" con **animación de carga** (spinner) y transición suave al mapa.
 
 ---
 
@@ -103,3 +111,5 @@ RutaCaribe/
 ## ⚖️ Aviso Legal y Exención de Responsabilidad
 
 RutaCaribe es una iniciativa comunitaria y cívica digital estrictamente independiente. No posee afiliación oficial ni contrato con Transcaribe S.A. ni con la Alcaldía Mayor de Cartagena de Indias. Las marcas y nombres de las estaciones se emplean con fines informativos para la comunidad de usuarios.
+
+**Este proyecto no recopila datos personales, no usa cookies de seguimiento y no requiere registro.** El código es abierto y auditable en el repositorio de GitHub.
