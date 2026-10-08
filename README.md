@@ -73,15 +73,30 @@ http://localhost:8080
 
 ```
 RutaCaribe/
-├── index.html                           # Aplicación web completa y funcional
-├── README.md                            # Documentación del proyecto
-└── stitch_transcaribe_route_planner/     # Diseños originales de Stitch
-    ├── mapa_planificador_rutacaribe/    # Vista de mapa interactivo
-    ├── rutas_del_sistema_rutacaribe/    # Directorio de rutas
-    ├── horarios_e_itinerarios_rutacaribe/ # Horarios e itinerarios
-    ├── inicio_rutacaribe/               # Landing de bienvenida
-    └── transcaribe_operational_system/  # DESIGN.md (Sistema de diseño)
+├── index.html                      # Aplicación web completa y funcional (single-file SPA)
+├── README.md                       # Documentación del proyecto
+└── design/                         # Assets de diseño y exports de Stitch
+    └── stitch-exports/             # Exports organizados por vista (code.html + screen.png)
+        ├── 01-inicio/              # Pantalla de bienvenida / Landing
+        │   ├── code.html           # Export HTML de Stitch
+        │   └── screen.png          # Captura de pantalla de referencia
+        ├── 02-mapa-planificador/   # Planificador interactivo A → B
+        │   ├── code.html
+        │   └── screen.png
+        ├── 03-rutas-sistema/       # Directorio de rutas y paradas
+        │   ├── code.html
+        │   └── screen.png
+        ├── 04-horarios-itinerarios/# Horarios e itinerarios oficiales
+        │   ├── code.html
+        │   └── screen.png
+        └── 05-sistema-operacional/ # Sistema de diseño operacional
+            └── DESIGN.md           # Manual de diseño Transcaribe Operational System
 ```
+
+### Archivos Eliminados (Limpieza)
+- ❌ `.vscode/` - Configuración de depuración de VS Code (no necesaria para el proyecto)
+- ❌ `.kilo/` - Carpeta residual de editor/IDE
+- ❌ `stitch_transcaribe_route_planner/` - Estructura desorganizada anterior (movida a `design/stitch-exports/`)
 
 ---
 
