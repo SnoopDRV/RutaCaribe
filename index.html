@@ -844,168 +844,50 @@
   <script>
     /* =========================================================================
        1. BASE DE DATOS GEOGRÁFICA Y OPERATIVA DE TRANSCARIBE CARTAGENA
+       (Cargada dinámicamente desde RouteData.json)
        ========================================================================= */
-    const STATIONS = {
-      // 18 Estaciones Troncales (Av. Pedro de Heredia hacia Centro)
-      'Patio Portal': { id: 'portal', name: 'Patio Portal', coords: [10.388701, -75.474682], type: 'troncal', isTerminal: true, desc: 'Cabecera Sur • Conexión con todas las alimentadoras', zone: 'Zona Sur / La Providencia', lines: ['T101', 'T102', 'T103', 'X102', 'A101', 'A102'] },
-      'Madre Bernarda': { id: 'madre_bernarda', name: 'Madre Bernarda', coords: [10.392945, -75.485123], type: 'troncal', desc: 'Sector Bomba El Amparo y La Castellana Sur', zone: 'El Amparo', lines: ['T101', 'T102', 'T103'] },
-      'La Castellana': { id: 'castellana', name: 'La Castellana', coords: [10.395730, -75.492583], type: 'troncal', desc: 'Paseo de la Castellana y Éxito', zone: 'Castellana', lines: ['T101', 'T102', 'T103', 'X101'] },
-      'Los Ángeles': { id: 'angeles', name: 'Los Ángeles', coords: [10.398642, -75.496516], type: 'troncal', desc: 'Sector La Castellana Norte y El Recreo', zone: 'Los Ángeles', lines: ['T101', 'T102', 'T103'] },
-      'Los Ejecutivos': { id: 'ejecutivos', name: 'Los Ejecutivos', coords: [10.401417, -75.499825], type: 'troncal', desc: 'Centro Comercial Ejecutivos / Acceso Las Gaviotas', zone: 'Ejecutivos', lines: ['T101', 'T102', 'T103', 'X101'] },
-      'Villa Olímpica': { id: 'villa_olimpica', name: 'Villa Olímpica', coords: [10.404285, -75.503672], type: 'troncal', desc: 'Estadio Jaime Morón y Coliseo de Combate', zone: 'Olímpica', lines: ['T101', 'T102', 'T103'] },
-      'República del Líbano': { id: 'libano', name: 'República del Líbano', coords: [10.409832, -75.511391], type: 'troncal', desc: 'Barrio República del Líbano y Chiquinquirá', zone: 'Líbano', lines: ['T101', 'T102', 'T103'] },
-      'Cuatro Vientos': { id: 'cuatro_vientos', name: 'Cuatro Vientos', coords: [10.407727, -75.508582], type: 'troncal', isTransfer: true, desc: 'Nodo Transbordo • Av. Pedro Romero y Olaya', zone: 'Cuatro Vientos', lines: ['T101', 'T102', 'T103', 'X104'] },
-      'España': { id: 'espana', name: 'España', coords: [10.412497, -75.514782], type: 'troncal', desc: 'Barrio España y Almirante Colón', zone: 'España', lines: ['T101', 'T102', 'T103'] },
-      'María Auxiliadora': { id: 'auxiliadora', name: 'María Auxiliadora', coords: [10.415259, -75.517926], type: 'troncal', desc: 'Sector Salesianos y Colegios', zone: 'Salesianos', lines: ['T101', 'T102', 'T103'] },
-      'Prado': { id: 'prado', name: 'Prado', coords: [10.417316, -75.520422], type: 'troncal', desc: 'Barrio El Prado y Amberes', zone: 'El Prado', lines: ['T101', 'T102', 'T103'] },
-      'Bazurto': { id: 'bazurto', name: 'Bazurto', coords: [10.419048, -75.522616], type: 'troncal', isTransfer: true, desc: 'Gran Mercado Central de Bazurto y Av. El Lago', zone: 'Mercado Central', lines: ['T101', 'T102', 'T103', 'X101', 'X104'] },
-      'Delicias': { id: 'delicias', name: 'Delicias', coords: [10.420658, -75.524954], type: 'troncal', desc: 'Pie de la Popa y Barrio Las Delicias', zone: 'Delicias', lines: ['T101', 'T102', 'T103'] },
-      'La Popa': { id: 'popa', name: 'La Popa', coords: [10.422119, -75.529894], type: 'troncal', desc: 'Acceso Cerro de la Popa y Lo Amador', zone: 'Pie de la Popa', lines: ['T101', 'T102', 'T103'] },
-      'Lo Amador': { id: 'amador', name: 'Lo Amador', coords: [10.423062, -75.534226], type: 'troncal', desc: 'Barrio Lo Amador y Castillo San Felipe', zone: 'San Felipe', lines: ['T101', 'T102', 'T103'] },
-      'Chambacú': { id: 'chambacu', name: 'Chambacú', coords: [10.423985, -75.539305], type: 'troncal', isTransfer: true, desc: 'Mallplaza El Castillo e Inteligente', zone: 'Chambacú', lines: ['T101', 'T102', 'T103', 'X102', 'X104'] },
-      'Centro': { id: 'centro', name: 'Centro', coords: [10.422785, -75.546378], type: 'troncal', desc: 'Torre del Reloj • Plaza de la Paz • Ciudad Amurallada', zone: 'Centro Histórico', lines: ['T101', 'T102', 'T103', 'X101', 'X102', 'X104'] },
-      'La Bodeguita': { id: 'bodeguita', name: 'La Bodeguita', coords: [10.421444, -75.550880], type: 'troncal', isTerminal: true, desc: 'Muelle de los Pegasos • Blas de Lezo • Terminal Centro', zone: 'Muelle Turístico', lines: ['T101', 'T102', 'T103', 'X104'] },
+    let STATIONS = {};
+    let SYSTEM_ROUTES = {};
+    let SCHEDULES_DATA = {};
 
-      // Extensiones Norte T102 (Crespo / Aeropuerto)
-      'Marbella': { id: 'marbella', name: 'Marbella', coords: [10.435500, -75.536000], type: 'pretroncal', desc: 'Avenida Santander frente a las playas', zone: 'Marbella', lines: ['T102'] },
-      'Crespo Cl 70': { id: 'crespo', name: 'Crespo Cl 70', coords: [10.444700, -75.516500], type: 'pretroncal', isTerminal: true, desc: 'Acceso Aeropuerto Internacional Rafael Núñez', zone: 'Aeropuerto / Crespo', lines: ['T102'] },
-
-      // Extensiones Sur Turístico T103 (Bocagrande)
-      'Base Naval': { id: 'base_naval', name: 'Base Naval', coords: [10.408500, -75.553200], type: 'pretroncal', desc: 'Entrada a Bocagrande / Bahía de Cartagena', zone: 'Bocagrande Norte', lines: ['T103'] },
-      'Bocagrande Cra 2': { id: 'bocagrande', name: 'Bocagrande Cra 2', coords: [10.399500, -75.557000], type: 'pretroncal', desc: 'Hotel Dann / Hospital de Bocagrande', zone: 'Zona Hotelera', lines: ['T103'] },
-      'Castillo Grande': { id: 'castillo_grande', name: 'Castillo Grande', coords: [10.391200, -75.554000], type: 'pretroncal', isTerminal: true, desc: 'Calle 5 con Carrera 10 / Retorno Bahía', zone: 'Castillo Grande', lines: ['T103'] },
-
-      // Extensiones Pretroncal X104 (Terminal / Cordialidad)
-      'Terminal de Transportes': { id: 'terminal', name: 'Terminal de Transportes', coords: [10.375200, -75.464500], type: 'pretroncal', isTerminal: true, desc: 'Terminal Terrestre Intermunicipal', zone: 'Terminal de Cartagena', lines: ['X104'] },
-      'El Pozón': { id: 'pozon', name: 'El Pozón', coords: [10.385500, -75.462000], type: 'pretroncal', desc: 'Avenida Cordialidad Calle 53', zone: 'El Pozón', lines: ['X104'] },
-      'Ronda Real': { id: 'ronda_real', name: 'Ronda Real', coords: [10.394000, -75.481000], type: 'pretroncal', desc: 'Intersección Pedro de Heredia y Cordialidad', zone: 'Ronda Real', lines: ['X104'] },
-
-      // Extensiones Pretroncal X102 (El Bosque / Manga)
-      'Diagonal 21 Ceballos': { id: 'ceballos', name: 'Diagonal 21 Ceballos', coords: [10.390500, -75.503000], type: 'pretroncal', desc: 'Corredor Industrial de Ceballos', zone: 'Ceballos', lines: ['X102'] },
-      'El Bosque Cl 24': { id: 'bosque', name: 'El Bosque Cl 24', coords: [10.398000, -75.521000], type: 'pretroncal', desc: 'Universidad Antonio Nariño y Zona Portuaria', zone: 'El Bosque', lines: ['X102'] },
-      'Puente Jiménez': { id: 'puente_jimenez', name: 'Puente Jiménez', coords: [10.412000, -75.537000], type: 'pretroncal', desc: 'Entrada a la Isla de Manga', zone: 'Manga Norte', lines: ['X102'] },
-      'Manga 4ta Avenida': { id: 'manga', name: 'Manga 4ta Avenida', coords: [10.416000, -75.538500], type: 'pretroncal', desc: 'Frente al Fuerte de San Sebastián del Pastelillo', zone: 'Manga Centro', lines: ['X102'] },
-
-      // Alimentadoras A101 (Ciudadela 2000 / Mandela)
-      'Ciudadela 2000': { id: 'ciudadela', name: 'Ciudadela 2000', coords: [10.374500, -75.485500], type: 'alimentador', isTerminal: true, desc: 'Cabecera Barrial Ciudadela 2000 Mz 45', zone: 'Zona Suroriental', lines: ['A101'] },
-      'Nelson Mandela': { id: 'mandela', name: 'Nelson Mandela', coords: [10.369500, -75.495000], type: 'alimentador', isTerminal: true, desc: 'Sector Las Vegas y Calle 18', zone: 'Nelson Mandela', lines: ['A101', 'A102'] }
-    };
-
-    const SYSTEM_ROUTES = {
-      'T101': {
-        code: 'T101',
-        name: 'Portal ↔ La Bodeguita',
-        category: 'TRONCAL',
-        typeLabel: 'Troncal Expresa Central',
-        color: '#f37021',
-        freq: 'Cada 5 - 8 min',
-        schedule: '05:00 - 22:00',
-        stops: ['Patio Portal', 'Madre Bernarda', 'La Castellana', 'Los Ángeles', 'Los Ejecutivos', 'Villa Olímpica', 'República del Líbano', 'Cuatro Vientos', 'España', 'María Auxiliadora', 'Prado', 'Bazurto', 'Delicias', 'La Popa', 'Lo Amador', 'Chambacú', 'Centro', 'La Bodeguita']
-      },
-      'T102': {
-        code: 'T102',
-        name: 'Portal ↔ Crespo',
-        category: 'TRONCAL',
-        typeLabel: 'Troncal Aeropuerto',
-        color: '#f37021',
-        freq: 'Cada 8 - 10 min',
-        schedule: '05:30 - 21:40',
-        stops: ['Patio Portal', 'Madre Bernarda', 'La Castellana', 'Los Ejecutivos', 'Cuatro Vientos', 'Bazurto', 'Chambacú', 'Marbella', 'Crespo Cl 70']
-      },
-      'T103': {
-        code: 'T103',
-        name: 'Portal ↔ Bocagrande',
-        category: 'TRONCAL',
-        typeLabel: 'Troncal Zona Turística',
-        color: '#f37021',
-        freq: 'Cada 8 - 12 min',
-        schedule: '05:30 - 21:55',
-        stops: ['Patio Portal', 'Madre Bernarda', 'La Castellana', 'Los Ángeles', 'Los Ejecutivos', 'Cuatro Vientos', 'Bazurto', 'Chambacú', 'Centro', 'La Bodeguita', 'Base Naval', 'Bocagrande Cra 2', 'Castillo Grande']
-      },
-      'X104': {
-        code: 'X104',
-        name: 'Terminal ↔ Centro Histórico',
-        category: 'PRETRONCAL',
-        typeLabel: 'Pretroncal Cordialidad',
-        color: '#525f71',
-        freq: 'Cada 10 - 15 min',
-        schedule: '05:15 - 21:15',
-        stops: ['Terminal de Transportes', 'El Pozón', 'Ronda Real', 'Cuatro Vientos', 'Bazurto', 'Chambacú', 'Centro', 'La Bodeguita']
-      },
-      'X102': {
-        code: 'X102',
-        name: 'Portal ↔ El Bosque ↔ Manga',
-        category: 'PRETRONCAL',
-        typeLabel: 'Pretroncal Portuaria',
-        color: '#525f71',
-        freq: 'Cada 10 - 14 min',
-        schedule: '05:15 - 21:15',
-        stops: ['Patio Portal', 'Diagonal 21 Ceballos', 'El Bosque Cl 24', 'Puente Jiménez', 'Manga 4ta Avenida', 'Chambacú', 'Centro']
-      },
-      'X101': {
-        code: 'X101',
-        name: 'San José de los Campanos ↔ Centro',
-        category: 'PRETRONCAL',
-        typeLabel: 'Pretroncal Campanos',
-        color: '#525f71',
-        freq: 'Cada 10 - 14 min',
-        schedule: '05:00 - 21:30',
-        stops: ['La Castellana', 'Los Ejecutivos', 'Cuatro Vientos', 'Bazurto', 'Chambacú', 'Centro']
-      },
-      'A101': {
-        code: 'A101',
-        name: 'Ciudadela 2000 ↔ Portal',
-        category: 'ALIMENTADOR',
-        typeLabel: 'Alimentadora Nelson Mandela',
-        color: '#059669',
-        freq: 'Cada 10 - 12 min',
-        schedule: '05:00 - 22:00',
-        stops: ['Ciudadela 2000', 'Nelson Mandela', 'Patio Portal']
-      },
-      'A102': {
-        code: 'A102',
-        name: 'Nelson Mandela ↔ Portal',
-        category: 'ALIMENTADOR',
-        typeLabel: 'Alimentadora Mandela Expresa',
-        color: '#059669',
-        freq: 'Cada 8 - 10 min',
-        schedule: '05:00 - 22:00',
-        stops: ['Nelson Mandela', 'Patio Portal']
+    // Cargar datos desde RouteData.json al iniciar
+    async function loadRouteData() {
+      try {
+        const response = await fetch('RouteData.json');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        STATIONS = data.stations;
+        SYSTEM_ROUTES = data.routes;
+        SCHEDULES_DATA = data.schedules;
+        console.log('RouteData.json cargado correctamente:', {
+          stations: Object.keys(STATIONS).length,
+          routes: Object.keys(SYSTEM_ROUTES).length,
+          schedules: Object.keys(SCHEDULES_DATA).length
+        });
+      } catch (error) {
+        console.error('Error al cargar RouteData.json:', error);
+        // Fallback: mostrar error amigable al usuario
+        showDataLoadError();
       }
-    };
+    }
 
-    const SCHEDULES_DATA = {
-      lv: [
-        { code: 'T101', name: 'Portal ↔ Centro / La Bodeguita', time: '05:00 - 22:00', freq: 'Cada 5 - 8 min' },
-        { code: 'T102', name: 'Portal ↔ Crespo (Calle 70 / Aeropuerto)', time: '05:30 - 21:40', freq: 'Cada 8 - 10 min' },
-        { code: 'T103', name: 'Portal ↔ Bocagrande / Castillo Grande', time: '05:30 - 21:55', freq: 'Cada 8 - 12 min' },
-        { code: 'X101', name: 'San José de los Campanos ↔ Centro', time: '05:00 - 21:30', freq: 'Cada 10 - 14 min' },
-        { code: 'X102', name: 'Portal ↔ El Bosque ↔ Manga', time: '05:15 - 21:15', freq: 'Cada 10 - 14 min' },
-        { code: 'X104', name: 'Terminal de Transportes ↔ Centro', time: '05:15 - 21:15', freq: 'Cada 10 - 15 min' },
-        { code: 'A101', name: 'Ciudadela 2000 ↔ Patio Portal', time: '05:00 - 22:00', freq: 'Cada 10 - 12 min' },
-        { code: 'A102', name: 'Nelson Mandela ↔ Patio Portal', time: '05:00 - 22:00', freq: 'Cada 8 - 10 min' }
-      ],
-      sab: [
-        { code: 'T101', name: 'Portal ↔ Centro / La Bodeguita', time: '05:30 - 21:30', freq: 'Cada 8 - 12 min' },
-        { code: 'T102', name: 'Portal ↔ Crespo (Calle 70 / Aeropuerto)', time: '05:45 - 21:00', freq: 'Cada 10 - 14 min' },
-        { code: 'T103', name: 'Portal ↔ Bocagrande / Castillo Grande', time: '05:45 - 21:15', freq: 'Cada 10 - 15 min' },
-        { code: 'X101', name: 'San José de los Campanos ↔ Centro', time: '05:30 - 21:00', freq: 'Cada 12 - 16 min' },
-        { code: 'X102', name: 'Portal ↔ El Bosque ↔ Manga', time: '05:30 - 20:30', freq: 'Cada 14 - 18 min' },
-        { code: 'X104', name: 'Terminal de Transportes ↔ Centro', time: '05:30 - 20:30', freq: 'Cada 14 - 18 min' },
-        { code: 'A101', name: 'Ciudadela 2000 ↔ Patio Portal', time: '05:30 - 21:30', freq: 'Cada 12 - 15 min' },
-        { code: 'A102', name: 'Nelson Mandela ↔ Patio Portal', time: '05:30 - 21:30', freq: 'Cada 10 - 14 min' }
-      ],
-      dom: [
-        { code: 'T101', name: 'Portal ↔ Centro / La Bodeguita', time: '06:00 - 21:00', freq: 'Cada 10 - 15 min' },
-        { code: 'T102', name: 'Portal ↔ Crespo (Calle 70 / Aeropuerto)', time: '06:00 - 20:30', freq: 'Cada 12 - 16 min' },
-        { code: 'T103', name: 'Portal ↔ Bocagrande / Castillo Grande', time: '06:00 - 20:30', freq: 'Cada 12 - 18 min' },
-        { code: 'X101', name: 'San José de los Campanos ↔ Centro', time: '06:00 - 20:00', freq: 'Cada 15 - 20 min' },
-        { code: 'X102', name: 'Portal ↔ El Bosque ↔ Manga', time: '06:30 - 20:00', freq: 'Cada 18 - 22 min' },
-        { code: 'X104', name: 'Terminal de Transportes ↔ Centro', time: '06:30 - 20:00', freq: 'Cada 18 - 22 min' },
-        { code: 'A101', name: 'Ciudadela 2000 ↔ Patio Portal', time: '06:00 - 21:00', freq: 'Cada 14 - 18 min' },
-        { code: 'A102', name: 'Nelson Mandela ↔ Patio Portal', time: '06:00 - 21:00', freq: 'Cada 12 - 16 min' }
-      ]
-    };
+    function showDataLoadError() {
+      const errorHtml = `
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-background/95 dark:bg-[#0f151c]/95 backdrop-blur-sm">
+          <div class="bg-surface-container-lowest dark:bg-[#1a2532] rounded-xl p-6 max-w-md mx-4 shadow-xl border border-error/30 text-center">
+            <span class="material-symbols-outlined text-error text-5xl mb-3 block">error</span>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface dark:text-white mb-2">Error al cargar datos</h3>
+            <p class="text-on-surface-variant dark:text-gray-400 mb-4">
+              No se pudo cargar RouteData.json. Asegúrate de servir el proyecto mediante un servidor web local (ej. <code>npx serve</code> o <code>python -m http.server</code>) y no abrir el archivo directamente.
+            </p>
+            <button onclick="location.reload()" class="px-4 py-2 bg-error text-on-error rounded-lg font-bold hover:opacity-90">Reintentar</button>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', errorHtml);
+    }
 
     /* =========================================================================
        2. INICIALIZACIÓN DEL MAPA LEAFLET - TILES COMPLIANTES CON POLÍTICA OSM
@@ -2151,7 +2033,10 @@
     /* =========================================================================
        11. ARRANQUE AUTOMÁTICO
        ========================================================================= */
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Cargar datos desde RouteData.json primero
+      await loadRouteData();
+      
       // Por defecto arranca en el Start Screen según el diseño de Stitch
       switchMainView('inicio');
     });
