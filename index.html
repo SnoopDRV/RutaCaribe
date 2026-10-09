@@ -6,10 +6,9 @@
   <title>RutaCaribe - Planificador de Rutas Transcaribe Cartagena</title>
   
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   
   <!-- Leaflet Map CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -32,7 +31,7 @@
       <div class="h-14 w-full max-w-7xl mx-auto flex items-center justify-between gap-space-sm bg-surface-container-lowest/95 dark:bg-[#161f28]/95 backdrop-blur-md rounded-xl px-space-md shadow-[0_2px_12px_rgba(0,0,0,0.08)] dark:shadow-[0_2px_12px_rgba(0,0,0,0.35)] border border-outline-variant/20 dark:border-white/10 pointer-events-auto">
         
         <!-- Logo & Marca (Lleva al Inicio) -->
-        <button onclick="switchMainView('inicio')" class="flex items-center gap-2.5 group cursor-pointer text-left" title="Ir al Inicio">
+        <button data-action="switchMainView" data-view="inicio" class="flex items-center gap-2.5 group cursor-pointer text-left" title="Ir al Inicio">
           <div class="w-8 h-8 rounded-lg bg-primary-container text-white flex items-center justify-center shadow-sm">
             <span class="material-symbols-outlined text-[20px]">directions_bus</span>
           </div>
@@ -44,20 +43,20 @@
 
         <!-- Navegación Central -->
         <nav class="flex items-center gap-1 bg-surface-container-low dark:bg-[#0e1620] p-1 rounded-lg border border-surface-container dark:border-white/5">
-          <button id="nav-btn-inicio" onclick="switchMainView('inicio')" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 font-medium text-label-md sm:text-label-lg transition-colors">
+          <button id="nav-btn-inicio" data-action="switchMainView" data-view="inicio" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 font-medium text-label-md sm:text-label-lg transition-colors">
             <span class="material-symbols-outlined text-[17px]">home</span>
             <span>Inicio</span>
           </button>
-          <button id="nav-btn-mapa" onclick="switchMainView('mapa')" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 bg-primary-container text-on-primary font-medium text-label-md sm:text-label-lg shadow-sm transition-all">
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <button id="nav-btn-mapa" data-action="switchMainView" data-view="mapa" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 bg-primary-container text-on-primary font-medium text-label-md sm:text-label-lg shadow-sm transition-all">
+            <span class="material-symbols-outlined w-4 h-4 shrink-0">map</span>
             <span>Mapa</span>
           </button>
-          <button id="nav-btn-rutas" onclick="switchMainView('rutas')" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 font-medium text-label-md sm:text-label-lg transition-colors">
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <button id="nav-btn-rutas" data-action="switchMainView" data-view="rutas" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 font-medium text-label-md sm:text-label-lg transition-colors">
+            <span class="material-symbols-outlined w-4 h-4 shrink-0">directions_bus</span>
             <span>Rutas</span>
           </button>
-          <button id="nav-btn-horarios" onclick="switchMainView('horarios')" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 font-medium text-label-md sm:text-label-lg transition-colors">
-            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-linecap="round" stroke-linejoin="round"></circle><path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <button id="nav-btn-horarios" data-action="switchMainView" data-view="horarios" class="px-3.5 py-1.5 rounded-full flex items-center gap-1 text-on-surface-variant dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 font-medium text-label-md sm:text-label-lg transition-colors">
+            <span class="material-symbols-outlined w-4 h-4 shrink-0">schedule</span>
             <span>Horarios</span>
           </button>
         </nav>
@@ -65,16 +64,7 @@
         <!-- Right Controls: Light / Dark Toggle Slider -->
         <div class="flex items-center gap-2">
           <button aria-checked="false" aria-label="Cambiar tema claro / oscuro" class="relative flex items-center w-16 h-8 p-1 rounded-full bg-surface-container-high dark:bg-[#253241] border border-outline-variant/30 dark:border-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-container" id="theme-toggle" role="switch">
-            <div class="w-full flex justify-between items-center px-1 text-on-surface-variant dark:text-gray-400 select-none pointer-events-none">
-              <!-- Sun icon -->
-              <svg class="w-3.5 h-3.5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0s-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"></path>
-              </svg>
-              <!-- Moon icon -->
-              <svg class="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12.3 2a10 10 0 00-1.9 19.8 9.9 9.9 0 007.8-2.6.75.75 0 00-.5-1.3 7.5 7.5 0 01-6.7-10.8.75.75 0 00-.7-.9z"></path>
-              </svg>
-            </div>
+            <div class="w-full flex justify-between items-center px-1 text-on-surface-variant dark:text-gray-400 select-none pointer-events-none" aria-hidden="true"></div>
             <!-- Animated knob -->
             <div class="absolute top-1 left-1 w-6 h-6 rounded-full bg-white dark:bg-primary-container shadow-md flex items-center justify-center transform transition-transform duration-300 ease-out" id="theme-knob">
               <span class="material-symbols-outlined text-[15px] text-amber-600 dark:hidden">light_mode</span>
@@ -111,7 +101,7 @@
 
         <!-- Botón Comenzar con animación de carga -->
         <div class="w-full flex flex-col items-center gap-space-md" id="start-button-container">
-          <button onclick="startApp()" id="btn-comenzar" class="group relative flex items-center justify-center gap-space-sm w-full sm:w-auto sm:min-w-[240px] px-space-xl py-space-md bg-gradient-to-b from-[#ff8736] to-primary-container text-on-primary font-label-lg text-label-lg rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_20px_-4px_rgba(243,112,33,0.38)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_12px_24px_-4px_rgba(243,112,33,0.48)] active:scale-[0.98] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),0_2px_6px_rgba(243,112,33,0.25)] transition-all duration-200 cursor-pointer">
+          <button data-action="startApp" id="btn-comenzar" class="group relative flex items-center justify-center gap-space-sm w-full sm:w-auto sm:min-w-[240px] px-space-xl py-space-md bg-gradient-to-b from-[#ff8736] to-primary-container text-on-primary font-label-lg text-label-lg rounded-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_8px_20px_-4px_rgba(243,112,33,0.38)] hover:shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_12px_24px_-4px_rgba(243,112,33,0.48)] active:scale-[0.98] active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),0_2px_6px_rgba(243,112,33,0.25)] transition-all duration-200 cursor-pointer">
             <span class="font-bold tracking-wide" id="btn-comenzar-text">Comenzar</span>
             <span class="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1" id="btn-comenzar-icon">arrow_forward</span>
             <!-- Spinner de carga (oculto por defecto) -->
@@ -199,7 +189,7 @@
                 <input autocomplete="off" class="w-full bg-transparent font-label-lg text-label-lg text-on-surface dark:text-white focus:outline-none placeholder:text-gray-400 truncate py-1 pr-6" id="input-origen" placeholder="Origen" type="text" value="">
                 <div class="hidden absolute top-full left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white dark:bg-[#1e293b] rounded-lg shadow-xl border border-gray-200 dark:border-white/10 z-50 custom-scrollbar" id="dropdown-origen"></div>
               </div>
-              <button class="p-1 text-on-surface-variant dark:text-gray-400 hover:text-primary-container transition-colors flex items-center justify-center" id="btn-gps" title="Usar mi ubicación GPS">
+              <button class="p-1 text-on-surface-variant dark:text-gray-400 hover:text-primary-container transition-colors flex items-center justify-center" id="btn-gps" data-action="useGpsLocation" title="Usar mi ubicación GPS">
                 <span class="material-symbols-outlined text-[19px]">my_location</span>
               </button>
             </div>
@@ -212,7 +202,7 @@
                 <input autocomplete="off" class="w-full bg-transparent font-label-lg text-label-lg text-on-surface dark:text-white focus:outline-none placeholder:text-gray-400 font-bold truncate py-1 pr-6" id="input-destino" placeholder="Destino" type="text" value="">
                 <div class="hidden absolute top-full left-0 right-0 mt-1 max-h-56 overflow-y-auto bg-white dark:bg-[#1e293b] rounded-lg shadow-xl border border-gray-200 dark:border-white/10 z-50 custom-scrollbar" id="dropdown-destino"></div>
               </div>
-              <button class="p-1 text-on-surface-variant dark:text-gray-400 hover:text-primary-container transition-colors flex items-center justify-center rounded" id="btn-invert" title="Invertir trayecto A ↔ B">
+              <button class="p-1 text-on-surface-variant dark:text-gray-400 hover:text-primary-container transition-colors flex items-center justify-center rounded" id="btn-invert" data-action="invertRoute" title="Invertir trayecto A ↔ B">
                 <span class="material-symbols-outlined text-[19px]">swap_vert</span>
               </button>
             </div>
@@ -259,11 +249,11 @@
 
           <!-- BOTONES DE ACCIÓN: INICIAR GUÍA Y VER LISTA DE PARADAS - Ocultos hasta tener ruta -->
           <div class="hidden grid grid-cols-2 gap-2 pt-0.5" id="trip-action-buttons">
-            <button class="h-10 px-3 bg-gradient-to-b from-[#f37021] to-[#d95d14] text-on-primary font-label-lg text-label-lg rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 font-bold border border-white/30 shadow-[0_4px_12px_rgba(243,112,33,0.35)]" id="btn-iniciar-guia" onclick="iniciarGuiaPasoAPaso()">
+            <button class="h-10 px-3 bg-gradient-to-b from-[#f37021] to-[#d95d14] text-on-primary font-label-lg text-label-lg rounded-xl hover:opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 font-bold border border-white/30 shadow-[0_4px_12px_rgba(243,112,33,0.35)]" id="btn-iniciar-guia" data-action="iniciarGuiaPasoAPaso">
               <span class="material-symbols-outlined text-[18px]">navigation</span>
               <span id="btn-guia-text">Iniciar Guía</span>
             </button>
-            <button class="h-10 px-3 bg-surface-container-low/90 dark:bg-white/10 text-on-surface dark:text-white font-label-lg text-label-lg rounded-xl hover:bg-surface-container-high dark:hover:bg-white/15 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-outline-variant/30 dark:border-white/10 shadow-sm" id="btn-toggle-paradas" onclick="toggleDetalleParadas()">
+            <button class="h-10 px-3 bg-surface-container-low/90 dark:bg-white/10 text-on-surface dark:text-white font-label-lg text-label-lg rounded-xl hover:bg-surface-container-high dark:hover:bg-white/15 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5 border border-outline-variant/30 dark:border-white/10 shadow-sm" id="btn-toggle-paradas" data-action="toggleDetalleParadas">
               <span class="material-symbols-outlined text-[18px]">format_list_bulleted</span>
               <span id="btn-paradas-text">Ver 14 Paradas</span>
             </button>
@@ -289,12 +279,12 @@
         <!-- Conmutador Capas: Líneas -->
         <div class="bg-surface-container-lowest/95 dark:bg-[#1a2532]/95 backdrop-blur-md shadow-lg border border-white/50 dark:border-white/10 rounded-xl p-1 flex flex-col gap-1 shadow-[0_4px_14px_rgba(0,0,0,0.1)]">
           <!-- Toggle Línea Troncal -->
-          <button class="px-2.5 py-1 rounded-lg bg-secondary-container dark:bg-white/15 text-on-secondary-container dark:text-white font-label-sm text-label-sm flex items-center gap-1.5 hover:opacity-90 transition-opacity" id="layer-troncal" onclick="toggleRouteLayer('troncal')">
+          <button class="px-2.5 py-1 rounded-lg bg-secondary-container dark:bg-white/15 text-on-secondary-container dark:text-white font-label-sm text-label-sm flex items-center gap-1.5 hover:opacity-90 transition-opacity" id="layer-troncal" data-action="toggleRouteLayer" data-layer="troncal">
             <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
             <span>Troncal</span>
           </button>
           <!-- Toggle Línea Pretroncales -->
-          <button class="px-2.5 py-1 rounded-lg bg-surface-container-low/70 dark:bg-[#121a24] text-on-surface-variant dark:text-gray-300 font-label-sm text-label-sm flex items-center gap-1.5 hover:bg-surface-container dark:hover:bg-white/10 transition-colors" id="layer-pretroncal" onclick="toggleRouteLayer('pretroncal')">
+          <button class="px-2.5 py-1 rounded-lg bg-surface-container-low/70 dark:bg-[#121a24] text-on-surface-variant dark:text-gray-300 font-label-sm text-label-sm flex items-center gap-1.5 hover:bg-surface-container dark:hover:bg-white/10 transition-colors" id="layer-pretroncal" data-action="toggleRouteLayer" data-layer="pretroncal">
             <span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
             <span>Pretroncales</span>
           </button>
@@ -302,15 +292,15 @@
 
         <!-- Botones de Zoom y Centrado -->
         <div class="flex flex-col gap-1.5">
-          <button class="w-10 h-10 rounded-xl bg-surface-container-lowest/95 dark:bg-[#1a2532]/95 backdrop-blur-md text-on-surface dark:text-white shadow-lg border border-white/50 dark:border-white/10 hover:bg-surface-container-low dark:hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" onclick="centrarEnCartagena()" title="Centrar en el Corredor Troncal">
+          <button class="w-10 h-10 rounded-xl bg-surface-container-lowest/95 dark:bg-[#1a2532]/95 backdrop-blur-md text-on-surface dark:text-white shadow-lg border border-white/50 dark:border-white/10 hover:bg-surface-container-low dark:hover:bg-white/10 active:scale-95 transition-all flex items-center justify-center" data-action="centrarEnCartagena" title="Centrar en el Corredor Troncal">
             <span class="material-symbols-outlined text-[20px] text-primary-container">center_focus_strong</span>
           </button>
           <div class="bg-surface-container-lowest/95 dark:bg-[#1a2532]/95 backdrop-blur-md rounded-xl shadow-lg border border-white/50 dark:border-white/10 flex flex-col overflow-hidden">
-            <button class="w-10 h-10 text-on-surface dark:text-white hover:bg-surface-container-low dark:hover:bg-white/10 active:bg-surface-container-high transition-colors flex items-center justify-center" onclick="map.zoomIn()" title="Acercar mapa">
+            <button class="w-10 h-10 text-on-surface dark:text-white hover:bg-surface-container-low dark:hover:bg-white/10 active:bg-surface-container-high transition-colors flex items-center justify-center" data-action="mapZoomIn" title="Acercar mapa">
               <span class="material-symbols-outlined text-[20px]">add</span>
             </button>
             <div class="h-px bg-surface-container dark:bg-white/10"></div>
-            <button class="w-10 h-10 text-on-surface dark:text-white hover:bg-surface-container-low dark:hover:bg-white/10 active:bg-surface-container-high transition-colors flex items-center justify-center" onclick="map.zoomOut()" title="Alejar mapa">
+            <button class="w-10 h-10 text-on-surface dark:text-white hover:bg-surface-container-low dark:hover:bg-white/10 active:bg-surface-container-high transition-colors flex items-center justify-center" data-action="mapZoomOut" title="Alejar mapa">
               <span class="material-symbols-outlined text-[20px]">remove</span>
             </button>
           </div>
@@ -336,7 +326,7 @@
                   <span class="font-body-sm text-body-sm text-on-surface-variant dark:text-gray-400 truncate" id="card-station-sub">Troncal • Corredor Av. Pedro de Heredia</span>
                 </div>
               </div>
-              <button class="p-1 rounded text-on-surface-variant dark:text-gray-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/10 transition-colors" onclick="dismissStationCard()" title="Cerrar panel">
+              <button class="p-1 rounded text-on-surface-variant dark:text-gray-400 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/10 transition-colors" data-action="dismissStationCard" title="Cerrar panel">
                 <span class="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
@@ -352,11 +342,11 @@
             
             <!-- Acciones Rápidas: Partir de aquí / Llegar aquí -->
             <div class="grid grid-cols-2 gap-2 border-b border-surface-container dark:border-white/10 pb-space-sm">
-              <button class="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 transition-all font-label-md text-label-md font-bold" onclick="setStationAsOrigin()">
+              <button class="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 transition-all font-label-md text-label-md font-bold" data-action="setStationAsOrigin">
                 <span class="material-symbols-outlined text-[18px]">trip_origin</span>
                 <span>Partir de aquí (A)</span>
               </button>
-              <button class="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-500/30 text-orange-800 dark:text-orange-300 hover:bg-orange-100 transition-all font-label-md text-label-md font-bold" onclick="setStationAsDest()">
+              <button class="flex items-center justify-center gap-2 p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-500/30 text-orange-800 dark:text-orange-300 hover:bg-orange-100 transition-all font-label-md text-label-md font-bold" data-action="setStationAsDest">
                 <span class="material-symbols-outlined text-[18px]">location_on</span>
                 <span>Llegar aquí (B)</span>
               </button>
@@ -417,7 +407,7 @@
               <span class="font-label-sm text-label-sm text-on-surface-variant dark:text-gray-400 uppercase font-medium">Líneas con parada</span>
               <span class="font-label-md text-label-md text-on-surface dark:text-white font-bold truncate max-w-[210px]" id="card-station-lines">T101, T102, T103, X104</span>
             </div>
-            <button class="px-3 py-1.5 bg-primary-container text-white font-label-sm text-label-sm rounded-lg hover:opacity-90 active:scale-95 transition-all flex items-center gap-1 font-bold shadow-sm" onclick="planearConEstaEstacion()">
+            <button class="px-3 py-1.5 bg-primary-container text-white font-label-sm text-label-sm rounded-lg hover:opacity-90 active:scale-95 transition-all flex items-center gap-1 font-bold shadow-sm" data-action="planearConEstaEstacion">
               <span class="material-symbols-outlined text-[16px]">alt_route</span>
               <span>Trazar Ruta</span>
             </button>
@@ -437,7 +427,7 @@
           <p class="font-body-md text-body-md text-secondary dark:text-gray-400">Guía completa de líneas troncales, pretroncales y alimentadoras en Cartagena.</p>
         </div>
         <div class="flex items-center gap-3">
-          <button onclick="switchMainView('mapa')" class="px-4 py-2 bg-primary-container text-white font-label-md text-label-md rounded-xl font-bold flex items-center gap-2 shadow-sm hover:opacity-95 transition-all">
+          <button data-action="switchMainView" data-view="mapa" class="px-4 py-2 bg-primary-container text-white font-label-md text-label-md rounded-xl font-bold flex items-center gap-2 shadow-sm hover:opacity-95 transition-all">
             <span class="material-symbols-outlined text-[18px]">map</span>
             <span>Ver en el Mapa</span>
           </button>
@@ -451,10 +441,10 @@
           <input class="w-full bg-surface-container-low dark:bg-[#0f1722] text-on-surface dark:text-white placeholder:text-secondary dark:placeholder:text-gray-500 rounded-lg pl-10 pr-4 py-2.5 font-body-md text-body-md outline-none border border-transparent focus:border-primary-container/40" id="directory-search-input" oninput="filterDirectoryRoutes()" placeholder="Buscar por código (ej. T101, X104, A101)..." type="text">
         </div>
         <div class="flex items-center gap-1 overflow-x-auto bg-surface-container dark:bg-[#0f1722] p-1 rounded-lg select-none">
-          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md rounded-lg transition-all bg-primary-container text-white font-bold" data-dir-cat="ALL" onclick="setDirCategory('ALL', this)">Todas</button>
-          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all" data-dir-cat="TRONCAL" onclick="setDirCategory('TRONCAL', this)">Troncales</button>
-          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all" data-dir-cat="PRETRONCAL" onclick="setDirCategory('PRETRONCAL', this)">Pretroncales</button>
-          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all" data-dir-cat="ALIMENTADOR" onclick="setDirCategory('ALIMENTADOR', this)">Alimentadoras</button>
+          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md rounded-lg transition-all bg-primary-container text-white font-bold" data-dir-cat="ALL" data-action="setDirCategory" data-cat="ALL">Todas</button>
+          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all" data-dir-cat="TRONCAL" data-action="setDirCategory" data-cat="TRONCAL">Troncales</button>
+          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all" data-dir-cat="PRETRONCAL" data-action="setDirCategory" data-cat="PRETRONCAL">Pretroncales</button>
+          <button class="dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all" data-dir-cat="ALIMENTADOR" data-action="setDirCategory" data-cat="ALIMENTADOR">Alimentadoras</button>
         </div>
       </div>
 
@@ -475,7 +465,7 @@
                 <h2 class="font-headline-lg text-headline-lg text-on-surface dark:text-white" id="dir-detail-title">Portal ↔ La Bodeguita</h2>
               </div>
             </div>
-            <button class="px-3 py-1.5 bg-primary-container text-white font-label-sm text-label-sm rounded-lg font-bold hover:opacity-90 flex items-center gap-1 shadow-sm" onclick="planearConRutaActiva()">
+            <button class="px-3 py-1.5 bg-primary-container text-white font-label-sm text-label-sm rounded-lg font-bold hover:opacity-90 flex items-center gap-1 shadow-sm" data-action="planearConRutaActiva">
               <span class="material-symbols-outlined text-[16px]">alt_route</span>
               <span>Cargar en Mapa</span>
             </button>
@@ -506,15 +496,15 @@
         </div>
         <!-- Selector de Día -->
         <div class="flex flex-wrap items-center bg-surface-container-low/70 dark:bg-[#0f1722] backdrop-blur-md p-1 rounded-xl gap-1.5 select-none border border-surface-container/60 dark:border-white/10 shadow-inner">
-          <button class="px-space-md py-2 rounded-lg font-label-md text-label-md bg-white dark:bg-[#1d2939] text-on-surface dark:text-white shadow-sm border border-surface-container/50 dark:border-white/10 transition-all flex items-center gap-1.5 font-bold cursor-pointer" id="day-lv" onclick="selectDaySchedule('lv')">
+          <button class="px-space-md py-2 rounded-lg font-label-md text-label-md bg-white dark:bg-[#1d2939] text-on-surface dark:text-white shadow-sm border border-surface-container/50 dark:border-white/10 transition-all flex items-center gap-1.5 font-bold cursor-pointer" id="day-lv" data-action="selectDaySchedule" data-day="lv">
             <span class="material-symbols-outlined text-[16px] text-primary-container">calendar_today</span>
             <span>Lunes a Viernes</span>
           </button>
-          <button class="px-space-md py-2 rounded-lg font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 transition-all flex items-center gap-1.5 cursor-pointer" id="day-sab" onclick="selectDaySchedule('sab')">
+          <button class="px-space-md py-2 rounded-lg font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 transition-all flex items-center gap-1.5 cursor-pointer" id="day-sab" data-action="selectDaySchedule" data-day="sab">
             <span class="material-symbols-outlined text-[16px]">date_range</span>
             <span>Sábados</span>
           </button>
-          <button class="px-space-md py-2 rounded-lg font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 transition-all flex items-center gap-1.5 cursor-pointer" id="day-dom" onclick="selectDaySchedule('dom')">
+          <button class="px-space-md py-2 rounded-lg font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface dark:hover:text-white hover:bg-surface-container dark:hover:bg-white/5 transition-all flex items-center gap-1.5 cursor-pointer" id="day-dom" data-action="selectDaySchedule" data-day="dom">
             <span class="material-symbols-outlined text-[16px]">event_available</span>
             <span>Domingos y Festivos</span>
           </button>
