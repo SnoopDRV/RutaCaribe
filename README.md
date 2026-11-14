@@ -76,9 +76,9 @@ RutaCaribe/
 
 Dependencies load in order via `<script src="js/...">` (no build step, no bundler).
 
-## Running Locally
+## Running Locally (Optional)
 
-A local web server is required (the app loads `RouteData.json` via `fetch()`, which doesn't work with `file://`).
+A local web server is only needed if you want to test changes before pushing. The app loads `RouteData.json` via `fetch()`, which doesn't work with `file://`.
 
 ```bash
 # Python 3
@@ -95,22 +95,9 @@ Then open `http://localhost:8080` in your browser.
 
 ## Deployment
 
-### GitHub Pages (Recommended)
+The site is live on GitHub Pages at **`https://snoopdrv.github.io/RutaCaribe/`**.
 
-1. Push the `main` branch to GitHub
-2. Settings → Pages → Source: "Deploy from a branch"
-3. Select `main` branch, `/ (root)` folder
-4. Site available at `https://<username>.github.io/RutaCaribe/`
-
-### Netlify / Vercel / Cloudflare Pages
-
-Connect the repository, build command: *none*, output directory: *root*. These services serve static files correctly and handle HTTPS automatically.
-
-### Custom Server
-
-Any static file server works (nginx, Apache, Caddy). No server-side processing needed.
-
-**Key requirement:** The server must serve `RouteData.json` with correct MIME type (`application/json`).
+It deploys automatically on every push to the `main` branch via the GitHub Actions workflow at `.github/workflows/deploy.yml`. No manual server setup is needed — users can access the site directly without self-hosting.
 
 ## Data Source
 
@@ -205,9 +192,9 @@ RutaCaribe es una aplicación web para planear trayectos punto a punto en el SIT
 - Tablas por día: Lunes–Viernes, Sábados, Domingos y festivos
 - Botón "Planear" por línea abre el mapa con la ruta resaltada
 
-### Cómo ejecutar
+### Cómo ejecutar (Opcional)
 
-**Se requiere un servidor web local** (la app carga `RouteData.json` vía `fetch()`, lo cual no funciona con `file://`).
+Un servidor web local solo se necesita si quieres probar cambios antes de subirlos. La app carga `RouteData.json` vía `fetch()`, lo cual no funciona con `file://`.
 
 ```bash
 # Python 3
@@ -220,7 +207,7 @@ npx serve
 php -S localhost:8080
 ```
 
-Luego abre `http://localhost:8080` en el navegador.
+Luego abre `http://localhost:8080` en tu navegador.
 
 ### Estructura del proyecto
 
@@ -258,19 +245,9 @@ Las dependencias se cargan en orden mediante `<script src="js/...">` (sin paso d
 
 ### Despliegue
 
-**GitHub Pages (Recomendado)**
-1. Push a GitHub
-2. Settings → Pages → Source: "Deploy from a branch"
-3. Rama `main`, carpeta `/ (root)`
-4. Disponible en `https://<usuario>.github.io/RutaCaribe/`
+El sitio está activo en GitHub Pages en **`https://snoopdrv.github.io/RutaCaribe/`**.
 
-**Netlify / Vercel / Cloudflare Pages**
-Conectar repositorio, comando de build: *ninguno*, directorio de salida: *root*. Estos servicios sirven archivos estáticos correctamente y manejan HTTPS automáticamente.
-
-**Servidor personalizado**
-Cualquier servidor de archivos estáticos (nginx, Apache, Caddy). No se requiere procesamiento del lado del servidor.
-
-**Requisito clave:** El servidor debe servir `RouteData.json` con MIME type correcto (`application/json`).
+Se despliega automáticamente en cada push a la rama `main` a través del flujo de trabajo de GitHub Actions en `.github/workflows/deploy.yml`. No se necesita configurar ningún servidor manualmente — los usuarios pueden acceder al sitio directamente sin autoalojarlo.
 
 ### Herramientas utilizadas
 
