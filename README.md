@@ -19,21 +19,22 @@ RutaCaribe is a web application for planning point-to-point trips on the Transca
 - Leaflet.js with Stadia Maps tiles (Alidade Smooth) — OSM policy compliant
 - Automatic fallbacks to OpenStreetMap France
 - Vector routes colored by category (trunk, pre-trunk, feeder)
-- Interactive markers for 33 stations
+- Interactive markers for 42 stations
 
 **Smart Route Highlighting**
 - Auto-zoom to selected route
 - Stations on route highlighted; others dimmed
-- Quick filter chips (T101–T103, X101–X104, A101–A102)
+- Quick filter chips for all 23 routes
 
 **Station Inspector**
 - Station details: corridor, sector, services
 - Quick buttons to set as origin/destination
 - Estimated arrivals and platform occupancy
 
-**Route Directory**
-- 8 routes categorized (Trunk, Pre-trunk, Feeder)
-- Full stop sequences with "Load on map" button
+**Station → Route Directory**
+- Station-centric list showing which lines serve each stop
+- Grouped by type: Trunk, Pre-trunk, Feeder, Complementary
+- Set any station as origin/destination with one tap
 
 **Official Schedules**
 - Tables by day: Mon–Fri, Saturdays, Sundays/holidays
@@ -41,7 +42,7 @@ RutaCaribe is a web application for planning point-to-point trips on the Transca
 
 ## Architecture
 
-Modular ES6 architecture with 13 JavaScript modules:
+Modular architecture with 14 JavaScript modules:
 
 ```
 RutaCaribe/
@@ -51,7 +52,8 @@ RutaCaribe/
 ├── js/
 │   ├── app.js              # Main entry point, initialization
 │   ├── data/
-│   │   └── route-data.js   # RouteData.json loader
+│   │   ├── route-data.js   # RouteData.json loader + open data refresh
+│   │   └── fetch-open-data.js  # ETL: fetches from Cartagena open data portal
 │   ├── map/
 │   │   ├── tile-config.js  # Tile layer providers & fallbacks
 │   │   ├── map-init.js     # Leaflet init, station markers, network lines
@@ -112,12 +114,25 @@ Any static file server works (nginx, Apache, Caddy). No server-side processing n
 
 ## Data Source
 
-RouteData.json contains:
-- 33 stations with coordinates, type, zone, and line associations
-- 8 routes (3 trunk, 3 pre-trunk, 2 feeder) with stop sequences
-- Schedules for 3 day types (weekday, Saturday, Sunday/holiday)
+Route data is sourced from the **Cartagena Municipal Open Data Portal** (`datosabiertos.cartagena.gov.co`), published by the Oficina Asesora de Informática of the Sistema Integrado de Transporte Masivo (Transcaribe) S.A.
 
-Data extracted from official Transcaribe public sources (2025/2026).
+### Open Data Datasets (CC-BY licensed)
+
+| Dataset | Resource ID | Description | License |
+|---------|-------------|-------------|---------|
+| Rutas Transcaribe 2025 | `ab94769a-5f6b-41ad-a5ca-3a4ed8812edf` | 23 route codes, names, categories, schedules, descriptions | [CC-BY](http://opendefinition.org/licenses/cc-by) |
+| Paraderos Transcaribe 2025 | `886f50a8-88f0-4e07-9b71-f5bbe4ae7daf` | 948 stop records with locations and route associations | [CC-BY](http://opendefinition.org/licenses/cc-by) |
+
+Data is fetched programmatically via the portal's CKAN Datastore API (`fetch-open-data.js`) and merged with locally curated station coordinates in `RouteData.json`.
+
+### RouteData.json contents
+
+- **42 stations** — 33 with curated geographic coordinates (not available in open data), plus 9 additional stations from open data without coordinates
+- **23 routes** — 8 with curated stop sequences (fully routable A→B), 15 with metadata only (schedules, category, description)
+- **Schedules** for 3 day types: Lunes–Viernes, Sábados, Domingos/Festivos
+- Route metadata (name, category, color, frequency, activation date, notes) sourced from the open data portal
+
+Data extracted from official Transcaribe public sources (2025/2026). Updated annually (routes) and semiannually (stations) by the Alcaldía de Cartagena.
 
 ## Tools Used
 
@@ -130,9 +145,21 @@ Data extracted from official Transcaribe public sources (2025/2026).
 
 ## License & Disclaimer
 
-Independent civic project. No affiliation with Transcaribe S.A. or the Mayor's Office of Cartagena. Station names and brands used for informational purposes only.
+### Project Code
+Independent civic project. Open source on GitHub. No personal data collection, no tracking cookies, no registration required.
 
-No personal data collection, no tracking cookies, no registration required. Open source on GitHub.
+### Data Attribution
+Route and station data is sourced from the Cartagena Municipal Open Data Portal (`datosabiertos.cartagena.gov.co`), published under the **Creative Commons Attribution (CC-BY)** license by the Oficina Asesora de Informática, Sistema Integrado de Transporte Masivo (Transcaribe) S.A.
+
+When using or redistributing RutaCaribe data, you must provide appropriate credit to:
+- **Sistema Integrado de Transporte Masivo (Transcaribe) S.A.** — Cartagena, Bolívar, Colombia
+- **Cartagena Municipal Open Data Portal** — `https://datosabiertos.cartagena.gov.co`
+- **License:** CC-BY (Creative Commons Attribution)
+
+### Affiliation Disclaimer
+This is an independent civic project. It is **not affiliated with, endorsed by, or formally linked to** Transcaribe S.A., the Alcaldía Mayor de Cartagena, or its concessionaires. Station names, route codes, and brands are used for informational and citizen-orientation purposes only. This website does not process PQRS requests or sell tickets.
+
+Route estimates and schedules are derived from published open data and may not reflect real-time service conditions. Always verify with official Transcaribe channels before traveling.
 
 ---
 
@@ -157,21 +184,22 @@ RutaCaribe es una aplicación web para planear trayectos punto a punto en el SIT
 - Leaflet.js con tiles de Stadia Maps (Alidade Smooth) — compatible con política OSM
 - Fallbacks automáticos a OpenStreetMap France
 - Rutas vectoriales coloreadas por categoría (troncal, pretroncales, alimentadoras)
-- Marcadores interactivos para 33 estaciones
+- Marcadores interactivos para 42 estaciones
 
 **Resaltado inteligente de rutas**
 - Zoom automático a la ruta seleccionada
 - Estaciones en la ruta se destacan; el resto se atenúan
-- Filtro rápido por chips (T101–T103, X101–X104, A101–A102)
+- Filtro rápido por chips para las 23 rutas
 
 **Inspector de estación**
 - Detalles: corredor, sector, servicios
 - Botones rápidos para usar como origen/destino
 - Próximos arribos estimados y ocupación de plataforma
 
-**Directorio de rutas**
-- 8 rutas categorizadas (Troncales, Pretroncales, Alimentadoras)
-- Secuencia completa de paradas con botón "Cargar en el mapa"
+**Directorio de paradas y rutas**
+- Listado centrado en paradas que muestra qué líneas atienden cada parada
+- Agrupadas por tipo: Troncales, Pretroncales, Alimentadoras, Complementarias
+- Establecer cualquier parada como origen/destino con un toque
 
 **Horarios oficiales**
 - Tablas por día: Lunes–Viernes, Sábados, Domingos y festivos
@@ -204,7 +232,8 @@ RutaCaribe/
 ├── js/
 │   ├── app.js              # Punto de entrada, inicialización
 │   ├── data/
-│   │   └── route-data.js   # Cargador de RouteData.json
+│   │   ├── route-data.js   # Cargador de RouteData.json + actualización de datos abiertos
+│   │   └── fetch-open-data.js  # ETL: obtiene datos del portal abierto de Cartagena
 │   ├── map/
 │   │   ├── tile-config.js  # Proveedores de tiles y fallbacks
 │   │   ├── map-init.js     # Inicialización Leaflet, marcadores, red
@@ -252,8 +281,41 @@ Cualquier servidor de archivos estáticos (nginx, Apache, Caddy). No se requiere
 - Tailwind CSS (vía CDN) — utilidades de estilo
 - Material Symbols — iconografía
 
+### Fuente de datos
+
+Los datos de rutas y paraderos provienen del **Portal de Datos Abiertos de la Alcaldía de Cartagena** (`datosabiertos.cartagena.gov.co`), publicados por la Oficina Asesora de Informática del Sistema Integrado de Transporte Masivo (Transcaribe) S.A.
+
+#### Conjuntos de datos abiertos (licencia CC-BY)
+
+| Conjunto de datos | ID del recurso | Descripción | Licencia |
+|-------------------|----------------|-------------|----------|
+| Rutas_Transcaribe 2025 | `ab94769a-5f6b-41ad-a5ca-3a4ed8812edf` | 23 códigos de rutas, nombres, categorías, horarios, descripciones | [CC-BY](http://opendefinition.org/licenses/cc-by) |
+| Paradero_Transcaribe 2025 | `886f50a8-88f0-4e07-9b71-f5bbe4ae7daf` | 948 registros de paraderos con ubicaciones y asociaciones de rutas | [CC-BY](http://opendefinition.org/licenses/cc-by) |
+
+Los datos se obtienen mediante programación a través de la API CKAN Datastore del portal (`fetch-open-data.js`) y se fusionan con coordenadas de estaciones curadas localmente en `RouteData.json`.
+
+#### Contenido de RouteData.json
+
+- **42 estaciones** — 33 con coordenadas geográficas curadas (no disponibles en datos abiertos), más 9 estaciones adicionales de datos abiertos sin coordenadas
+- **23 rutas** — 8 con secuencias de paradas curadas (rutables A→B), 15 solo con metadatos (horarios, categoría, descripción)
+- **Horarios** para 3 tipos de día: Lunes–Viernes, Sábados, Domingos/Festivos
+
+Los datos se extraen de fuentes públicas oficiales de Transcaribe (2025/2026). Actualizados anualmente (rutas) y semestralmente (paraderos) por la Alcaldía de Cartagena.
+
 ### Licencia y aviso
 
-Proyecto cívico independiente. Sin afiliación a Transcaribe S.A. ni a la Alcaldía Mayor de Cartagena. Las marcas y nombres de estaciones se usan con fines informativos.
+#### Código del proyecto
+Proyecto cívico independiente. Código abierto en GitHub. No se recopilan datos personales, no hay cookies de seguimiento, no se requiere registro.
 
-No recopila datos personales, no usa cookies de seguimiento, no requiere registro. Código abierto en GitHub.
+#### Atribución de datos
+Los datos de rutas y estaciones provienen del Portal de Datos Abiertos de Cartagena (`datosabiertos.cartagena.gov.co`), publicados bajo la licencia **Creative Commons Attribution (CC-BY)** por la Oficina Asesora de Informática, Sistema Integrado de Transporte Masivo (Transcaribe) S.A.
+
+Al usar o redistribuir los datos de RutaCaribe, debe proporcionar el crédito correspondiente a:
+- **Sistema Integrado de Transporte Masivo (Transcaribe) S.A.** — Cartagena, Bolívar, Colombia
+- **Portal de Datos Abiertos de Cartagena** — `https://datosabiertos.cartagena.gov.co`
+- **Licencia:** CC-BY (Creative Commons Attribution)
+
+#### Exención de afiliación
+Este es un proyecto cívico independiente. **No está afiliado, avalado ni vinculado formalmente con** Transcaribe S.A., la Alcaldía Mayor de Cartagena ni sus concesionarios de operación. Los nombres de estaciones, códigos de ruta y marcas se usan con fines informativos y de orientación al ciudadano. Esta web no tramita PQRS ni venta de pasajes.
+
+Las estimaciones de rutas y horarios se derivan de datos abiertos publicados y pueden no reflejar las condiciones del servicio en tiempo real. Siempre verifique con los canales oficiales de Transcaribe antes de viajar.
