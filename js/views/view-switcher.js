@@ -47,7 +47,7 @@ function switchMainView(view) {
     viewRutas.classList.remove('hidden');
     viewRutas.classList.add('flex');
     if (btnRutas) btnRutas.className = activeClasses;
-    renderDirectoryRoutes();
+    renderStationList();
   } else if (view === 'horarios') {
     viewHorarios.classList.remove('hidden');
     viewHorarios.classList.add('flex');

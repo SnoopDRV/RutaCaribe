@@ -5,7 +5,6 @@
 
 let currentOrigin = '';
 let currentDest = '';
-let navigationSimulationInterval = null;
 
 function calculateAndDisplayRoute(origName, destName) {
   if (!origName || !destName || origName === destName) return;
@@ -118,7 +117,6 @@ function drawActiveRouteOnMap(res) {
   if (activePathPolyline) map.removeLayer(activePathPolyline);
   if (activeOriginMarker) map.removeLayer(activeOriginMarker);
   if (activeDestMarker) map.removeLayer(activeDestMarker);
-  if (simulatedBusMarker) map.removeLayer(simulatedBusMarker);
 
   const pathCoords = res.stops
     .map(name => STATIONS[name] ? STATIONS[name].coords : null)
@@ -163,63 +161,9 @@ function clearActiveRoute() {
   if (activePathPolyline) map.removeLayer(activePathPolyline);
   if (activeOriginMarker) map.removeLayer(activeOriginMarker);
   if (activeDestMarker) map.removeLayer(activeDestMarker);
-  if (simulatedBusMarker) map.removeLayer(simulatedBusMarker);
   activePathPolyline = null;
   activeOriginMarker = null;
   activeDestMarker = null;
-  simulatedBusMarker = null;
-}
-
-function iniciarGuiaPasoAPaso() {
-  const btn = document.getElementById('btn-iniciar-guia');
-  const btnText = document.getElementById('btn-guia-text');
-
-  if (navigationSimulationInterval) {
-    clearInterval(navigationSimulationInterval);
-    navigationSimulationInterval = null;
-    if (simulatedBusMarker) map.removeLayer(simulatedBusMarker);
-    btnText.textContent = 'Iniciar Guía';
-    btn.classList.remove('from-emerald-600', 'to-emerald-700');
-    return;
-  }
-
-  btnText.textContent = 'En Ruta...';
-  btn.classList.add('from-emerald-600', 'to-emerald-700');
-
-  const orig = STATIONS[currentOrigin];
-  const dest = STATIONS[currentDest];
-  if (!orig || !dest) return;
-
-  const busIcon = L.divIcon({
-    className: 'bus-sim-wrapper',
-    html: `<div class="w-8 h-8 rounded-full bg-emerald-600 border-2 border-white shadow-xl flex items-center justify-center text-white animate-bounce"><span class="material-symbols-outlined text-[18px]">directions_bus</span></div>`,
-    iconSize: [32, 32],
-    iconAnchor: [16, 16]
-  });
-
-  simulatedBusMarker = L.marker(orig.coords, { icon: busIcon, zIndexOffset: 2000 }).addTo(map);
-
-  let step = 0;
-  const totalSteps = 25;
-  navigationSimulationInterval = setInterval(() => {
-    step++;
-    if (step > totalSteps) {
-      clearInterval(navigationSimulationInterval);
-      navigationSimulationInterval = null;
-      btnText.textContent = '¡Llegaste!';
-      setTimeout(() => {
-        btnText.textContent = 'Iniciar Guía';
-        btn.classList.remove('from-emerald-600', 'to-emerald-700');
-        if (simulatedBusMarker) map.removeLayer(simulatedBusMarker);
-      }, 3000);
-      return;
-    }
-
-    const lat = orig.coords[0] + (dest.coords[0] - orig.coords[0]) * (step / totalSteps);
-    const lng = orig.coords[1] + (dest.coords[1] - orig.coords[1]) * (step / totalSteps);
-    simulatedBusMarker.setLatLng([lat, lng]);
-    map.panTo([lat, lng], { animate: true, duration: 0.5 });
-  }, 700);
 }
 
 // Expose globally for inline handlers
@@ -227,7 +171,6 @@ window.currentOrigin = currentOrigin;
 window.currentDest = currentDest;
 window.calculateAndDisplayRoute = calculateAndDisplayRoute;
 window.clearActiveRoute = clearActiveRoute;
-window.iniciarGuiaPasoAPaso = iniciarGuiaPasoAPaso;
 window.setCurrentOrigin = (val) => { currentOrigin = val; };
 window.setCurrentDest = (val) => { currentDest = val; };
 window.getCurrentOrigin = () => currentOrigin;

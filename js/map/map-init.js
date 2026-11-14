@@ -11,7 +11,6 @@ let routePolylines = {};
 let activePathPolyline = null;
 let activeOriginMarker = null;
 let activeDestMarker = null;
-let simulatedBusMarker = null;
 
 /**
  * Initialize the Leaflet map with fallback tile layers
@@ -124,7 +123,10 @@ function centrarEnCartagena() {
 }
 
 /**
- * Draw network route lines on the map
+ * Draw network route lines on the map (created but not added by default).
+ * Lines are only added to the map when a specific route is selected via
+ * selectRouteFilter(). This keeps the map clean — no lines cutting through
+ * blocks unless the user explicitly picks a route.
  */
 function drawNetworkLines() {
   if (!SYSTEM_ROUTES || !STATIONS) return;
@@ -138,9 +140,10 @@ function drawNetworkLines() {
       const polyline = L.polyline(coords, {
         color: route.color,
         weight: route.category === 'TRONCAL' ? 5 : 3.5,
-        opacity: 0.65,
-        lineJoin: 'round'
-      }).addTo(map);
+        opacity: 0,
+        lineJoin: 'round',
+        interactive: false
+      });
 
       polyline.bindTooltip(`Línea ${route.code}: ${route.name}`, { sticky: true });
       polyline.on('click', () => {

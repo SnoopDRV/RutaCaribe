@@ -48,7 +48,7 @@ function selectDaySchedule(type) {
 
 function planearDesdeHorario(code) {
   const r = SYSTEM_ROUTES[code];
-  if (r) {
+  if (r && r.stops && r.stops.length > 1) {
     currentOrigin = r.stops[0];
     currentDest = r.stops[r.stops.length - 1];
     document.getElementById('input-origen').value = currentOrigin;

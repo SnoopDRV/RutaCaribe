@@ -1,126 +1,199 @@
 /**
- * Directory View
- * Routes directory rendering and interaction
+ * Directory View — Station → Routes map list
+ * Shows each station with the routes that serve it (like Transcaribe's
+ * in-station route maps). Replaces the old route-card directory.
  */
 
 let currentDirCategory = 'ALL';
-let currentSelectedDirCode = 'T101';
+let currentSelectedStation = null;
 
-function renderDirectoryRoutes() {
-  const container = document.getElementById('directory-routes-list');
+const TYPE_LABELS = {
+  TRONCAL: 'Troncales',
+  PRETRONCAL: 'Pretroncales',
+  ALIMENTADOR: 'Alimentadoras',
+  COMPLEMENTARIA: 'Complementarias',
+};
+
+const TYPE_COLORS = {
+  TRONCAL: '#f37021',
+  PRETRONCAL: '#525f71',
+  ALIMENTADOR: '#059669',
+  COMPLEMENTARIA: '#7c3aed',
+};
+
+/**
+ * Render the full station list grouped by station type.
+ * Each station shows route badges for every line that stops there.
+ */
+function renderStationList() {
+  const container = document.getElementById('station-list-container');
+  if (!container) return;
+
+  const q = (document.getElementById('station-search-input')?.value || '').toLowerCase().trim();
+
+  // Group stations by type
+  const grouped = {};
+  for (const [name, st] of Object.entries(STATIONS)) {
+    const type = st.type || 'TRONCAL';
+    if (!grouped[type]) grouped[type] = [];
+    grouped[type].push({ name, ...st });
+  }
+
+  // Sort types in a sensible order
+  const typeOrder = ['TRONCAL', 'PRETRONCAL', 'ALIMENTADOR', 'COMPLEMENTARIA'];
+
   let html = '';
 
-  for (const [code, r] of Object.entries(SYSTEM_ROUTES)) {
-    const isMatchCat = (currentDirCategory === 'ALL' || r.category === currentDirCategory);
-    if (!isMatchCat) continue;
+  for (const type of typeOrder) {
+    const stations = grouped[type] || [];
+    if (stations.length === 0) continue;
 
-    const isSelected = code === currentSelectedDirCode;
+    // Filter by category if not ALL
+    let filtered = stations;
+    if (currentDirCategory !== 'ALL') {
+      filtered = stations.filter(s => {
+        const lines = s.lines || [];
+        return lines.some(l => SYSTEM_ROUTES[l]?.category === currentDirCategory);
+      });
+    }
+    if (filtered.length === 0) continue;
+
+    // Filter by search query
+    if (q) {
+      filtered = filtered.filter(s =>
+        s.name.toLowerCase().includes(q) ||
+        (s.zone || '').toLowerCase().includes(q) ||
+        (s.lines || []).some(l => l.toLowerCase().includes(q))
+      );
+    }
+    if (filtered.length === 0) continue;
+
+    // Sort stations alphabetically within type
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+
     html += `
-      <article class="cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all relative overflow-hidden border border-surface-container/60 dark:border-white/5 ${isSelected ? 'ring-2 ring-primary-container' : ''}" onclick="selectDirectoryRoute('${code}')">
-        <div class="absolute left-0 top-0 bottom-0 w-1.5" style="background-color: ${r.color};"></div>
-        <div class="flex items-start justify-between gap-space-sm pl-2">
-          <div class="flex items-center gap-space-sm">
-            <span class="text-white font-headline-sm px-2.5 py-1 rounded tracking-tight tabular-nums font-bold" style="background-color: ${r.color};">
-              ${r.code}
-            </span>
-            <div class="flex flex-col">
-              <span class="font-label-sm uppercase tracking-wide font-bold" style="color: ${r.color};">${r.typeLabel}</span>
-              <h3 class="font-headline-sm text-on-surface dark:text-white leading-snug">${r.name}</h3>
+      <section class="mb-space-lg">
+        <h2 class="font-headline-sm text-headline-sm text-on-surface dark:text-white mb-space-sm flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full" style="background-color:${TYPE_COLORS[type]}"></span>
+          ${TYPE_LABELS[type]} (${filtered.length})
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-sm">
+    `;
+
+    for (const st of filtered) {
+      const lines = st.lines || [];
+      const lineBadges = lines
+        .map(l => {
+          const r = SYSTEM_ROUTES[l];
+          const color = r ? r.color : TYPE_COLORS[type];
+          return `<span class="line-badge px-2 py-0.5 rounded text-[10px] font-bold tracking-tight" style="background-color:${color};color:#ffffff;">${l}</span>`;
+        })
+        .join('');
+
+      const isSelected = currentSelectedStation === st.name;
+      html += `
+        <article class="cursor-pointer p-space-md rounded-xl bg-surface-container-lowest dark:bg-[#162130] shadow-sm hover:shadow-md transition-all border border-surface-container/60 dark:border-white/5 ${isSelected ? 'ring-2 ring-primary-container' : ''}" onclick="selectStation('${st.name}')">
+          <div class="flex items-start justify-between gap-space-sm">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full ${st.isTerminal ? 'bg-primary-container' : 'bg-outline-variant'}"></span>
+              <span class="font-label-sm font-bold text-on-surface dark:text-white truncate">${st.name}</span>
+            </div>
+            <div class="flex flex-wrap gap-1" id="lines-${st.name}">
+              ${lineBadges}
             </div>
           </div>
-          <span class="material-symbols-outlined text-[20px] text-gray-400">arrow_forward</span>
-        </div>
-        <div class="flex items-center justify-between mt-space-sm pt-space-xs pl-2 bg-surface-container-low/50 dark:bg-[#0f1722]/60 p-1.5 rounded-lg text-xs text-gray-600 dark:text-gray-300">
-          <div class="flex items-center gap-1">
-            <span class="material-symbols-outlined text-[16px]">pin_drop</span>
-            <span>${r.stops.length} estaciones</span>
+          <div class="mt-1">
+            <span class="text-xs text-on-surface-variant dark:text-gray-400">${st.zone || 'Cartagena'}</span>
           </div>
-          <div class="flex items-center gap-1">
-            <span class="material-symbols-outlined text-[16px] text-primary-container">schedule</span>
-            <span>${r.freq}</span>
+          <div class="mt-space-sm flex items-center gap-2">
+            <button class="flex-1 py-1.5 rounded-lg bg-surface-container-low dark:bg-[#0f1722] text-on-surface dark:text-white text-xs font-medium border border-surface-container dark:border-white/10 hover:bg-surface-container-low/50 transition-colors" onclick="event.stopPropagation(); setStationAsOriginFromList('${st.name}')">
+              Origen
+            </button>
+            <button class="flex-1 py-1.5 rounded-lg bg-primary-container text-white text-xs font-medium hover:opacity-90 transition-colors" onclick="event.stopPropagation(); setStationAsDestFromList('${st.name}')">
+              Destino
+            </button>
           </div>
-        </div>
-      </article>
-    `;
+        </article>
+      `;
+    }
+
+    html += `</div></section>`;
   }
+
+  if (html === '') {
+    html = `<div class="text-center py-space-lg text-on-surface-variant dark:text-gray-400 text-sm">No se encontraron estaciones que coincidan con el filtro.</div>`;
+  }
+
   container.innerHTML = html;
-  renderDirectoryDetail(currentSelectedDirCode);
 }
 
-function selectDirectoryRoute(code) {
-  currentSelectedDirCode = code;
-  renderDirectoryRoutes();
+/**
+ * Select a station (visual highlight only).
+ */
+function selectStation(name) {
+  currentSelectedStation = name;
+  renderStationList();
 }
 
-function renderDirectoryDetail(code) {
-  const r = SYSTEM_ROUTES[code];
-  if (!r) return;
-
-  document.getElementById('dir-detail-badge').textContent = r.code;
-  document.getElementById('dir-detail-badge').style.backgroundColor = r.color;
-  document.getElementById('dir-detail-type').textContent = r.typeLabel;
-  document.getElementById('dir-detail-type').style.color = r.color;
-  document.getElementById('dir-detail-title').textContent = r.name;
-  document.getElementById('dir-detail-stops-count').textContent = `${r.stops.length} paradas`;
-
-  const timeline = document.getElementById('dir-detail-timeline');
-  let html = '';
-  r.stops.forEach((stopName, idx) => {
-    const isFirst = idx === 0;
-    const isLast = idx === r.stops.length - 1;
-    const st = STATIONS[stopName] || {};
-
-    html += `
-      <div class="relative flex items-start justify-between gap-space-sm group">
-        <span class="absolute -left-5 top-1.5 w-3 h-3 rounded-full ${isFirst || isLast ? 'bg-primary-container ring-2 ring-white' : 'bg-gray-400 dark:bg-gray-600'}"></span>
-        <div class="flex flex-col pl-2">
-          <span class="font-bold text-on-surface dark:text-white ${isFirst || isLast ? 'text-base text-primary-container' : 'text-sm'}">${stopName}</span>
-          <span class="text-xs text-gray-500 dark:text-gray-400">${st.desc || ''}</span>
-        </div>
-        <div class="flex items-center gap-1 text-[11px] bg-gray-100 dark:bg-white/5 px-2 py-0.5 rounded text-gray-600 dark:text-gray-300">
-          ${isFirst ? 'Salida' : isLast ? 'Terminal' : `${idx + 1}`}
-        </div>
-      </div>
-    `;
-  });
-  timeline.innerHTML = html;
+/**
+ * Set a station from the list as origin (A).
+ */
+function setStationAsOriginFromList(name) {
+  currentOrigin = name;
+  document.getElementById('input-origen')?.value?.length && (document.getElementById('input-origen').value = name);
+  const inp = document.getElementById('input-origen');
+  if (inp) inp.value = name;
+  const dest = document.getElementById('input-destino')?.value;
+  if (dest) calculateAndDisplayRoute(name, dest);
+  currentSelectedStation = null;
+  renderStationList();
 }
 
+/**
+ * Set a station from the list as destination (B).
+ */
+function setStationAsDestFromList(name) {
+  currentDest = name;
+  const inp = document.getElementById('input-destino');
+  if (inp) inp.value = name;
+  const orig = document.getElementById('input-origen')?.value;
+  if (orig) calculateAndDisplayRoute(orig, name);
+  currentSelectedStation = null;
+  renderStationList();
+}
+
+/**
+ * Filter stations by search input.
+ */
+function filterStationList() {
+  renderStationList();
+}
+
+/**
+ * Set category filter (ALL, TRONCAL, PRETRONCAL, ALIMENTADOR, COMPLEMENTARIA).
+ */
 function setDirCategory(cat, btn) {
   currentDirCategory = cat;
   document.querySelectorAll('.dir-filter-tab').forEach(b => {
     b.className = 'dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md text-secondary dark:text-gray-300 hover:text-on-surface rounded-lg transition-all';
   });
-  btn.className = 'dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md rounded-lg transition-all bg-primary-container text-white font-bold';
-  renderDirectoryRoutes();
-}
-
-function filterDirectoryRoutes() {
-  const q = document.getElementById('directory-search-input').value.toLowerCase().trim();
-  const articles = document.querySelectorAll('#directory-routes-list article');
-  articles.forEach(art => {
-    const text = art.textContent.toLowerCase();
-    art.classList.toggle('hidden', !text.includes(q));
-  });
-}
-
-function planearConRutaActiva() {
-  const r = SYSTEM_ROUTES[currentSelectedDirCode];
-  if (r && r.stops.length > 1) {
-    currentOrigin = r.stops[0];
-    currentDest = r.stops[r.stops.length - 1];
-    document.getElementById('input-origen').value = currentOrigin;
-    document.getElementById('input-destino').value = currentDest;
-    switchMainView('mapa');
-    selectRouteFilter(r.code);
-    calculateAndDisplayRoute(currentOrigin, currentDest);
+  if (btn) {
+    btn.className = 'dir-filter-tab px-3.5 py-1.5 font-label-md text-label-md rounded-lg transition-all bg-primary-container text-white font-bold';
   }
+  renderStationList();
 }
 
-// Expose globally for inline handlers
-window.renderDirectoryRoutes = renderDirectoryRoutes;
-window.selectDirectoryRoute = selectDirectoryRoute;
-window.renderDirectoryDetail = renderDirectoryDetail;
+// Legacy aliases kept for backward compatibility with view-switcher.js
+window.renderDirectoryRoutes = renderStationList;
+window.renderStationList = renderStationList;
+window.selectDirectoryRoute = selectStation;
+window.renderDirectoryDetail = () => {};
 window.setDirCategory = setDirCategory;
-window.filterDirectoryRoutes = filterDirectoryRoutes;
-window.planearConRutaActiva = planearConRutaActiva;
+window.filterDirectoryRoutes = filterStationList;
+window.filterStationList = filterStationList;
+window.selectStation = selectStation;
+window.setStationAsOriginFromList = setStationAsOriginFromList;
+window.setStationAsDestFromList = setStationAsDestFromList;
+window.planearConRutaActiva = () => {
+  // No-op: the rutas tab is now station-centric. Use the map view to plan.
+};

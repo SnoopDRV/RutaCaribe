@@ -53,3 +53,31 @@ window.STATIONS = STATIONS;
 window.SYSTEM_ROUTES = SYSTEM_ROUTES;
 window.SCHEDULES_DATA = SCHEDULES_DATA;
 window.loadRouteData = loadRouteData;
+
+/**
+ * Refresh route data from the Cartagena open data portal (CKAN datastore API).
+ * Fetches live routes + paraderos, merges with curated station coordinates,
+ * and updates the global STATIONS / SYSTEM_ROUTES / SCHEDULES_DATA state.
+ * @returns {Promise<void>}
+ */
+async function refreshFromOpenData() {
+  if (!window.fetchOpenData) {
+    throw new Error('fetch-open-data.js no se ha cargado');
+  }
+
+  const curated = { stations: STATIONS, routes: SYSTEM_ROUTES, schedules: SCHEDULES_DATA };
+  const merged = await window.fetchOpenData.buildRouteData(curated);
+
+  STATIONS = merged.stations;
+  SYSTEM_ROUTES = merged.routes;
+  SCHEDULES_DATA = merged.schedules;
+
+  window.STATIONS = STATIONS;
+  window.SYSTEM_ROUTES = SYSTEM_ROUTES;
+  window.SCHEDULES_DATA = SCHEDULES_DATA;
+
+  console.log('Datos actualizados desde el portal abierto:', merged._meta);
+  return merged._meta;
+}
+
+window.refreshFromOpenData = refreshFromOpenData;
