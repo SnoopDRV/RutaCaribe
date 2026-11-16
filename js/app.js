@@ -28,6 +28,20 @@ function initAutocomplete() {
   });
 }
 
+// Debug keybind: press / to log current routing state
+window.addEventListener('keydown', (e) => {
+  if (e.key === '/' && !e.target.matches('input, textarea')) {
+    e.preventDefault();
+    console.group('🔍 RutaCaribe Debug State');
+    console.log('Origin:', window.getCurrentOrigin ? window.getCurrentOrigin() : 'N/A');
+    console.log('Destination:', window.getCurrentDest ? window.getCurrentDest() : 'N/A');
+    console.log('STATIONS count:', Object.keys(window.STATIONS || {}).length);
+    console.log('SYSTEM_ROUTES count:', Object.keys(window.SYSTEM_ROUTES || {}).length);
+    console.log('Map initialized:', !!window.getMap ? !!window.getMap() : 'N/A');
+    console.groupEnd();
+  }
+});
+
 // Main initialization
 window.addEventListener('DOMContentLoaded', async () => {
   try {

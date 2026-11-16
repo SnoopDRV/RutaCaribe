@@ -22,14 +22,19 @@ let activeTransferMarkers = [];
 
 /**
  * Build an adjacency graph from all system routes.
- * Each consecutive stop pair becomes a bidirectional edge weighted by route category.
  */
 function buildGraph() {
   const graph = {};
+  let edgeCount = 0;
 
   for (const [code, route] of Object.entries(SYSTEM_ROUTES)) {
     const category = route.category;
     const baseMinutes = CATEGORY_BASE_MINUTES[category] || 2.0;
+
+    if (!route.stops || route.stops.length < 2) {
+      console.warn(`[Routing] Route ${code} has no valid stop sequence, skipping`);
+      continue;
+    }
 
     for (let i = 0; i < route.stops.length - 1; i++) {
       const a = route.stops[i];
@@ -41,19 +46,25 @@ function buildGraph() {
 
       graph[a].push({ neighbor: b, routeCode: code, weight });
       graph[b].push({ neighbor: a, routeCode: code, weight });
+      edgeCount++;
     }
   }
 
+  console.log(`[Routing] Graph built: ${Object.keys(graph).length} stations, ${edgeCount} edges`);
   return graph;
 }
 
 /**
  * Run Dijkstra on the station graph with route-aware transfer penalties.
- * State: (station, lastRouteCode) — cost depends on which route we arrived on,
- * so switching routes incurs a transfer penalty.
  */
 function findRoute(graph, origin, dest) {
-  if (!graph[origin] || !graph[dest]) return null;
+  console.log(`[Routing] findRoute: origin="${origin}", dest="${dest}"`);
+  console.log(`[Routing] origin in graph: ${!!graph[origin]}, dest in graph: ${!!graph[dest]}`);
+
+  if (!graph[origin] || !graph[dest]) {
+    console.warn(`[Routing] Station not found in graph: ${!graph[origin] ? origin : ''} ${!graph[dest] ? dest : ''}`);
+    return null;
+  }
 
   const dist = {};
   const prev = {};
@@ -64,8 +75,14 @@ function findRoute(graph, origin, dest) {
 
   const pq = [{ station: origin, lastRoute: null, cost: 0 }];
 
+  let iterations = 0;
   while (pq.length > 0) {
-    // Extract min-cost entry (simple O(n) scan — fine for ~42 stations)
+    iterations++;
+    if (iterations > 10000) {
+      console.error('[Routing] Dijkstra exceeded iteration limit, possible infinite loop');
+      break;
+    }
+
     let minIdx = 0;
     for (let i = 1; i < pq.length; i++) {
       if (pq[i].cost < pq[minIdx].cost) minIdx = i;
@@ -77,6 +94,7 @@ function findRoute(graph, origin, dest) {
     visited.add(stateKey);
 
     if (station === dest) {
+      console.log(`[Routing] Route found after ${iterations} iterations`);
       return reconstructPath(prev, station, lastRoute);
     }
 
@@ -106,12 +124,12 @@ function findRoute(graph, origin, dest) {
     }
   }
 
+  console.warn(`[Routing] No route found after ${iterations} iterations`);
   return null;
 }
 
 /**
  * Reconstruct the path from the prev map and group consecutive stops into legs.
- * A new leg starts whenever the route changes (i.e., a transfer occurs).
  */
 function reconstructPath(prev, destStation, destRoute) {
   const path = [];
@@ -131,6 +149,8 @@ function reconstructPath(prev, destStation, destRoute) {
     station: currentKey.split('|')[0],
     route: null,
   });
+
+  console.log(`[Routing] Path: ${path.map(p => `${p.station}(${p.route})`).join(' -> ')}`);
 
   // Group into legs: consecutive stops on the same route form one leg
   const legs = [];
@@ -188,6 +208,11 @@ function reconstructPath(prev, destStation, destRoute) {
   // Flatten stops without duplicating transfer stations
   const allStops = legs.flatMap((leg, idx) => (idx === 0 ? leg.stops : leg.stops.slice(1)));
 
+  console.log(`[Routing] Result: ${legs.length} leg(s), ${totalStops} stops, ~${totalMinutes} min`);
+  if (!isDirect) {
+    console.log(`[Routing] Transfers at: ${transferStations.join(', ')}`);
+  }
+
   return {
     isDirect,
     legs,
@@ -207,21 +232,80 @@ function reconstructPath(prev, destStation, destRoute) {
 }
 
 /**
+ * Show a "no route found" message in the planner UI.
+ */
+function showNoRouteFound(origName, destName) {
+  const card = document.getElementById('trip-result-card');
+  const actions = document.getElementById('trip-action-buttons');
+  const stepsList = document.getElementById('itinerary-steps-list');
+
+  if (card) card.classList.remove('hidden');
+  if (actions) {
+    actions.classList.remove('hidden');
+    actions.classList.add('grid');
+  }
+
+  document.getElementById('res-badge-line').textContent = '—';
+  document.getElementById('res-trip-time').textContent = '—';
+  document.getElementById('res-trip-stops').textContent = 'Sin ruta disponible';
+  document.getElementById('res-next-arrival').textContent = '—';
+
+  const directTag = document.getElementById('res-direct-tag');
+  directTag.textContent = 'Sin conexión';
+  directTag.className = 'text-xs text-error dark:text-red-400 font-bold';
+
+  const delayBox = document.getElementById('res-delay-box');
+  const delayText = document.getElementById('res-delay-text');
+  delayBox.className = 'bg-error/15 dark:bg-red-950/40 border border-error/30 rounded px-2.5 py-1.5 flex items-center gap-2';
+  delayText.innerHTML = `No hay ruta disponible entre <strong>${origName}</strong> y <strong>${destName}</strong> con los datos actuales.`;
+
+  if (stepsList) {
+    stepsList.innerHTML = `
+      <div class="text-center py-4 text-on-surface-variant dark:text-gray-400 text-sm">
+        Intenta seleccionar estaciones diferentes o revisa que ambas tengan coordenadas asignadas.
+      </div>
+    `;
+  }
+
+  document.getElementById('btn-paradas-text').textContent = 'Ver paradas';
+}
+
+/**
  * Calculate and display a route from origin to destination.
  */
 function calculateAndDisplayRoute(origName, destName) {
-  if (!origName || !destName || origName === destName) return;
+  console.log(`[Routing] calculateAndDisplayRoute called: "${origName}" -> "${destName}"`);
 
-  const orig = STATIONS[origName];
-  const dest = STATIONS[destName];
-  if (!orig || !dest) return;
+  try {
+    if (!origName || !destName || origName === destName) {
+      console.warn('[Routing] Invalid origin/destination');
+      return;
+    }
 
-  const graph = buildGraph();
-  const routeResult = findRoute(graph, origName, destName);
+    const orig = STATIONS[origName];
+    const dest = STATIONS[destName];
+    if (!orig || !dest) {
+      console.warn(`[Routing] Station not found in STATIONS: ${!orig ? origName : ''} ${!dest ? destName : ''}`);
+      showNoRouteFound(origName, destName);
+      return;
+    }
 
-  if (routeResult) {
-    updatePlannerResultUI(routeResult);
-    if (map) drawActiveRouteOnMap(routeResult);
+    console.log(`[Routing] Origin coords: [${orig.coords}], Dest coords: [${dest.coords}]`);
+
+    const graph = buildGraph();
+    const routeResult = findRoute(graph, origName, destName);
+
+    if (routeResult) {
+      console.log('[Routing] Route calculated successfully, updating UI');
+      updatePlannerResultUI(routeResult);
+      if (map) drawActiveRouteOnMap(routeResult);
+    } else {
+      console.warn('[Routing] No route found, showing error state');
+      showNoRouteFound(origName, destName);
+    }
+  } catch (err) {
+    console.error('[Routing] Unexpected error:', err);
+    showNoRouteFound(origName, destName);
   }
 }
 
@@ -229,7 +313,10 @@ function calculateAndDisplayRoute(origName, destName) {
  * Draw all route legs on the map with per-leg colors and transfer station markers.
  */
 function drawActiveRouteOnMap(res) {
-  if (!map) return;
+  if (!map) {
+    console.warn('[Routing] Map not initialized, skipping drawActiveRouteOnMap');
+    return;
+  }
   clearActiveRoute();
 
   // Draw a polyline for each leg using that leg's route color
@@ -248,6 +335,8 @@ function drawActiveRouteOnMap(res) {
         lineJoin: 'round',
       }).addTo(map);
       activePathPolylines.push(polyline);
+    } else {
+      console.warn(`[Routing] Leg ${leg.routeCode} has insufficient coordinates for polyline`);
     }
   }
 
@@ -325,3 +414,4 @@ window.setCurrentOrigin = (val) => { currentOrigin = val; };
 window.setCurrentDest = (val) => { currentDest = val; };
 window.getCurrentOrigin = () => currentOrigin;
 window.getCurrentDest = () => currentDest;
+window.showNoRouteFound = showNoRouteFound;
