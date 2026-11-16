@@ -21,9 +21,22 @@ function initMap() {
 
   const cartagenaCenter = [10.412, -75.515];
   
+  // Bounding box around all Transcaribe stations, padded so stations
+  // don't sit on the very edges of the screen when zoomed out.
+  // Furthest stations: Crespo Cl 70 (N, 10.4447), Nelson Mandela (S, 10.3695),
+  // Bocagrande Cra 2 (W, -75.5570), El Pozón (E, -75.4620).
+  const PADDING = 0.008;
+  const cartagenaBounds = [
+    [10.369500 - PADDING, -75.557000 - PADDING], // south west
+    [10.444700 + PADDING, -75.462000 + PADDING]  // north east
+  ];
+
   map = L.map('gis-map-viewport', {
     center: cartagenaCenter,
     zoom: 13,
+    minZoom: 12,
+    maxBounds: cartagenaBounds,
+    maxBoundsViscosity: 0.5,
     zoomControl: false,
     attributionControl: false
   });
@@ -120,6 +133,14 @@ function showMapError(message) {
 
 function centrarEnCartagena() {
   if (map) map.flyTo([10.412, -75.515], 13, { duration: 1 });
+}
+
+function mapZoomIn() {
+  if (map) map.zoomIn();
+}
+
+function mapZoomOut() {
+  if (map) map.zoomOut();
 }
 
 /**
@@ -238,6 +259,8 @@ function updateStationMarkerHighlight(routeCode) {
 // Expose globally for inline handlers and other modules
 window.initMap = initMap;
 window.centrarEnCartagena = centrarEnCartagena;
+window.mapZoomIn = mapZoomIn;
+window.mapZoomOut = mapZoomOut;
 window.drawNetworkLines = drawNetworkLines;
 window.renderStationMarkers = renderStationMarkers;
 window.updateStationMarkerHighlight = updateStationMarkerHighlight;
